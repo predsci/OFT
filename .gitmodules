@@ -1,0 +1,9 @@
+[submodule "hipft"]
+	path = hipft
+	url = https://github.com/predsci/hipft
+[submodule "conflow"]
+	path = conflow
+	url = https://github.com/predsci/conflow
+[submodule "oftpy"]
+	path = oftpy
+	url = https://github.com/predsci/oftpy
