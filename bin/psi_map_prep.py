@@ -31,6 +31,7 @@ import numpy as np
 import os
 import subprocess
 import argparse
+import sys
 from pathlib import Path
 #
 import psi_io
@@ -50,7 +51,6 @@ def argParsing():
     parser.add_argument('-o',
                         help='Output file name.  Default is br_final.h5.',
                         dest='outputfilename',
-                        default='br_final.h5',
                         required=False)
 
     parser.add_argument('-nt',
@@ -78,14 +78,14 @@ def argParsing():
                         required=False)
 
     parser.add_argument('-noflux',
-                        help='Do not flux balance map.',
+                        help='Do not flux balance the map.',
                         dest='flux',
                         action='store_false',
                         default=True,
                         required=False)
 
     parser.add_argument('-nosmooth',
-                        help='Do not smooth map.',
+                        help='Do not smooth the map.',
                         dest='smooth',
                         action='store_false',
                         default=True,
@@ -108,7 +108,6 @@ def argParsing():
     parser.add_argument('-hipftexe',
                         help='Full path to hipft executable (otherwise assume hipft is in the path)',
                         dest='hipftexe',
-                        default='hipft',
                         type=str,
                         required=False)
 
@@ -118,11 +117,24 @@ def argParsing():
 ## Get input agruments:
 args = argParsing()
 
-ext='h5'
+ext='.h5'
 
-# Get base file name:
+# Set location of hipft if not specified.
+# Should check if hipft exists in specified local, or in standard path, or in user path.
+# If none, error out.
+if args.hipftexe is None:
+  args.hipftexe=sys.path[0]+'/../hipft/bin/hipft'
+
+# Get base name of input file:
 fileroot = Path(args.inputfilename).stem
-fname=fileroot+'.'+ext
+fname=fileroot+ext
+
+# Get full path of input file:
+inputfilename = str(Path(args.inputfilename).resolve())
+
+# Set default output name if not specified:
+if args.outputfilename is None:
+  args.outputfilename = fileroot+'_processed'+ext
 
 print('')
 print('############################################################')
@@ -134,16 +146,16 @@ print('')
 print('--- Making temporary directory \'map_processing\'')
 os.makedirs('map_processing', exist_ok=True)
 os.chdir('map_processing')
-print('--- Making soft link br.'+ext+' to input file.')
-os.system('ln -sf '+args.inputfilename+' br.'+ext)
+print('--- Making soft link br'+ext+' to input file.')
+os.system('ln -sf '+inputfilename+' br'+ext)
 curr_name='br'
 
 if (args.multfac != 1.0):
     print('--- Reading in file to apply multiplicative factor ('+str(args.multfac)+')')
-    x,y,brmap = psi_io.rdhdf_2d(args.inputfilename)
+    x,y,brmap = psi_io.rdhdf_2d(inputfilename)
     brmap = args.multfac*brmap
     curr_name = curr_name + '_scaled'
-    fname = curr_name + '.' + ext
+    fname = curr_name + ext
     psi_io.wrhdf_2d(fname,x,y,brmap)
     print('--- Wrote file: '+fname)
 
@@ -160,7 +172,7 @@ if args.remap:
 #
     curr_name = curr_name+'_interp'
 #
-    print('--- Wrote file: '+curr_name+'.'+ext)
+    print('--- Wrote file: '+curr_name+ext)
 
 
 if args.smooth or args.flux:
@@ -172,7 +184,7 @@ if args.smooth or args.flux:
     if args.flux and args.smooth:
         nm='smoothed_flxbal'
     hipft_input_string = '&hipft_input_parameters\n'                            +\
-                         '  initial_map_filename=\''+curr_name+'.'+ext+'\'\n'   +\
+                         '  initial_map_filename=\''+curr_name+ext+'\'\n'   +\
                          '  output_map_root_filename=\''+curr_name+'_'+nm+'\'\n'
     curr_name = curr_name+'_'+nm
     if args.smooth:
@@ -197,13 +209,13 @@ if args.smooth or args.flux:
         command='mpiexec -np 1 '+args.hipftexe+' 1>hipft.log 2>hipft.err'
         print('    --- Running HipFT with command: '+command)
         subprocess.run(["bash","-c",command])
-        os.system('mv '+curr_name+'_final.'+ext+' '+curr_name+'.'+ext)
+        os.system('mv '+curr_name+'_final.'+ext+' '+curr_name+ext)
 
 
 # - Get result back (final step).
 print('--- Copying final map.')
 os.chdir('../')
-os.system('cp map_processing/'+curr_name+'.'+ext+' '+args.outputfilename)
+os.system('cp map_processing/'+curr_name+ext+' '+args.outputfilename)
 
 print('')
 print('############################################################')
