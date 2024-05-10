@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 ########################################################################
-# ****** psi_map_prep.py: PSI magnetogram processing
+# ****** psi_remap_mm.py: PSI magnetogram remapping
 #
 #     Predictive Science Inc.
 #     www.predsci.com
@@ -143,63 +143,62 @@ print('#####  Input map name: '+args.inputfilename)
 print('############################################################')
 print('')
 
-print('--- Making temporary directory \'map_processing\'')
+print('=> Making temporary directory \'map_processing\'')
 os.makedirs('map_processing', exist_ok=True)
 os.chdir('map_processing')
-print('--- Making soft link br'+ext+' to input file.')
+print('=> Making soft link br'+ext+' to input file.')
 os.system('ln -sf '+inputfilename+' br'+ext)
 curr_name='br'
 
+
 if (args.multfac != 1.0):
-    print('--- Reading in file to apply multiplicative factor ('+str(args.multfac)+')')
+    print('=> Reading in file to apply multiplicative factor ('+str(args.multfac)+')')
     x,y,brmap = psi_io.rdhdf_2d(inputfilename)
     brmap = args.multfac*brmap
     curr_name = curr_name + '_scaled'
     fname = curr_name + ext
     psi_io.wrhdf_2d(fname,x,y,brmap)
-    print('--- Wrote file: '+fname)
+    print('=> Wrote file: '+fname)
 
 
 if args.remap:
     print('')
-    print('--- Remapping map to specified grid.')
-#
-#
-#
-#  JAMIE SCRIPT GOES HERE
-#
-#
-#
-    curr_name = curr_name+'_interp'
-#
-    print('--- Wrote file: '+curr_name+ext)
+    print('=> Remapping map to specified grid.')
+    if args.template is not None:
+      strtmp = '-template '+args.template
+    else:
+      strtmp = '-nt '+args.nt+' -np '+args.np
+    command = sys.path[0]+'/psi_remap_mm.py '+strtmp+' '+curr_name+ext+' '+curr_name+'_remapped'+ext
+    subprocess.run(["bash","-c",command])
+    curr_name = curr_name+'_remapped'
+    print('=> Wrote file: '+curr_name+ext)
 
 
 if args.smooth or args.flux:
-    print('--- Starting to prepare HipFT run...')
+    print('=> Starting to prepare HipFT run...')
     if args.smooth and not args.flux:
         nm='smoothed'
     if args.flux and not args.smooth:
         nm='flxbal'
     if args.flux and args.smooth:
         nm='smoothed_flxbal'
-    hipft_input_string = '&hipft_input_parameters\n'                            +\
+    hipft_input_string = '&hipft_input_parameters\n'                        +\
                          '  initial_map_filename=\''+curr_name+ext+'\'\n'   +\
                          '  output_map_root_filename=\''+curr_name+'_'+nm+'\'\n'
     curr_name = curr_name+'_'+nm
     if args.smooth:
-        print('    --- Adding smoothing options to HipFT input file.')
+        print('    => Adding smoothing options to HipFT input file.')
         hipft_input_string = hipft_input_string                                 +\
                              '  diffusion_coef_factor='+str(args.smoothfac)+'\n'+\
                              '  time_end=1.0\n'                                 +\
                              '  advance_diffusion=.true.\n'                     +\
                              '  diffusion_coef_grid=.true.\n'
     if args.flux:
-        print('    --- Adding flux balancing to HipFT input file.')
+        print('    => Adding flux balancing to HipFT input file.')
         hipft_input_string = hipft_input_string +\
                              '  output_map_flux_balance=.true.\n'
     if args.smooth or args.flux:
-        print('    --- Writing HipFT input file to disk.')
+        print('    => Writing HipFT input file to disk.')
         hipft_input_string = hipft_input_string + '/\n'
         f = open("hipft.in", "w")
         f.write(hipft_input_string)
@@ -207,13 +206,13 @@ if args.smooth or args.flux:
 #     - Run Hipft
 #       ERROR CHECK - make sure hipft is in the path!
         command='mpiexec -np 1 '+args.hipftexe+' 1>hipft.log 2>hipft.err'
-        print('    --- Running HipFT with command: '+command)
+        print('    => Running HipFT with command: '+command)
         subprocess.run(["bash","-c",command])
-        os.system('mv '+curr_name+'_final.'+ext+' '+curr_name+ext)
+        os.system('mv '+curr_name+'_final'+ext+' '+curr_name+ext)
 
 
 # - Get result back (final step).
-print('--- Copying final map.')
+print('=> Copying final map.')
 os.chdir('../')
 os.system('cp map_processing/'+curr_name+ext+' '+args.outputfilename)
 

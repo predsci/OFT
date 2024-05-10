@@ -1,4 +1,31 @@
 #!/usr/bin/env python3
+########################################################################
+# ****** psi_map_prep.py: PSI magnetogram processing
+#
+#     Predictive Science Inc.
+#     www.predsci.com
+#     San Diego, California, USA 92121
+########################################################################
+# Copyright 2024 Predictive Science Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+########################################################################
+#
+#  Version 1.0.0
+#
+########################################################################
+
 import numpy as np
 import argparse
 from pathlib import Path
@@ -59,13 +86,9 @@ else:
 tvec_tmp = tvec_centers_input.copy()
 tvec_tmp[0]  = (tvec_centers_input[0]  + tvec_centers_input[1] )*0.25
 tvec_tmp[-1] = tvec_centers_input[-1] - np.abs((tvec_centers_input[-1] - tvec_centers_input[-2])*0.25)
-da_input_map = input_data
+da_input_map = input_data.copy()
 for i in range(len(pvec_centers_input)):
   da_input_map[i,:] = np.sin(tvec_tmp[:])
-
-print(da_input_map.shape)
-print(np.min(da_input_map))
-print(np.max(da_input_map))
 
 # Make scales for cell edges:
 # As per Jamie's instructions, set boundary edges to original center positions.
@@ -105,21 +128,6 @@ pvec_edges_output       = np.zeros(len(pvec_centers_output) + 1)
 pvec_edges_output[1:-1] = (pvec_centers_output[0:-1] + pvec_centers_output[1:]) * 0.5
 pvec_edges_output[0]    = pvec_centers_output[0]
 pvec_edges_output[-1]   = pvec_centers_output[-1]
-
-#print(np.all(np.diff(tvec_edges_input) > 0))
-#print(np.all(np.diff(pvec_edges_input) > 0))
-#print(np.all(np.diff(tvec_edges_output) > 0))
-#print(np.all(np.diff(pvec_edges_output) > 0))
-
-print(np.min(tvec_edges_input))
-print(np.max(tvec_edges_input))
-print(np.min(pvec_edges_input))
-print(np.max(pvec_edges_input))
-
-print(np.min(tvec_centers_input))
-print(np.max(tvec_centers_input))
-print(np.min(pvec_centers_input))
-print(np.max(pvec_centers_input))
 
 # Remesh the map:
 output_data = downsample_grid.downsamp_reg_grid(input_data, tvec_edges_input,  pvec_edges_input,  \
