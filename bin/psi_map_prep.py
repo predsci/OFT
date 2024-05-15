@@ -134,7 +134,7 @@ inputfilename = str(Path(args.inputfilename).resolve())
 
 # Set default output name if not specified:
 if args.outputfilename is None:
-  args.outputfilename = fileroot+'_processed'+ext
+  args.outputfilename = 'processed_'+fileroot+ext
 
 print('')
 print('############################################################')
