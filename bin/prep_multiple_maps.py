@@ -4,11 +4,10 @@ import sys
 import argparse
 import subprocess
 from pathlib import Path
-import re
+
 
 # INPUT:  - Map directory (use Path from pathlib to get full path)
 #         - Output directory (default is new local folder called "output_swig")
-#         - [Need rest of swig options to pass to the swig call]
 
 def argParsing():
     parser = argparse.ArgumentParser(description='Run multiple maps through PSI Map Prep')
@@ -94,9 +93,9 @@ def run(args):
 
   # Make rundir and go there
   if args.outdir is None:
-      args.outdir = str(Path('.').resolve())+'/output_map_prep'
+      args.outdir = str(Path('.').resolve())+'/processed_maps'
 
-  os.chdir(args.outdir)
+
 
   # Get all files in input directory
   h5_files = list(input_directory.glob('*.h5'))
@@ -107,27 +106,31 @@ def run(args):
     sys.exit(1)
 
   if args.psi_map_prep is None:
-    args.psi_map_prep = 'psi_map_prep.py'
+    pmpdir = sys.path[0]
+    args.psi_map_prep = pmpdir+'/psi_map_prep.py'
 
   args.psi_map_prep = str(Path(args.psi_map_prep).resolve())
+
+  print(Path(args.psi_map_prep))
+
+  os.makedirs(args.outdir, exist_ok=True)
+  os.chdir(args.outdir)
 
   empty_idx=99999
   for h5_file in h5_files:
     h5_file=str(h5_file)
-    idx=h5_file[-9:-3]
-    if bool(re.search(r'\d{6}',idx)):
-      oidx=' -o br_final_'+idx+'.h5'
-    else:
-      oidx=' -o br_final_'+str(empty_idx)+'.h5'
-      empty_idx+=1
+    oidx=' -o processed_'+h5_file.split('/')[-1]
 
     print('=> Running map : ' +h5_file.split('/')[-1])
 
+    print(args.psi_map_prep)
 
     Command=args.psi_map_prep+' '+h5_file+oidx+ \
       ' -nt '+str(args.nt)+' -np '+str(args.np)+' -template '+str(args.template)+\
-      ' -mfac '+str(args.multfac)+' -smoothfac '+str(args.smoothfac)+\
-      ' -hipftexe '+args.hipftexe
+      ' -mfac '+str(args.multfac)+' -smoothfac '+str(args.smoothfac)
+
+    if args.hipftexe is not None:
+        Command=Command+' -hipftexe'
 
     if (args.flux):
       Command=Command+' -noflux'
