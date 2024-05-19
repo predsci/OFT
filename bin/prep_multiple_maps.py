@@ -91,11 +91,9 @@ def run(args):
   # Get full path of input directory:
   input_directory = Path(args.input_directory).resolve()
 
-  # Make rundir and go there
+  # Set default output directory.
   if args.outdir is None:
       args.outdir = str(Path('.').resolve())+'/processed_maps'
-
-
 
   # Get all files in input directory
   h5_files = list(input_directory.glob('*.h5'))
@@ -111,33 +109,37 @@ def run(args):
 
   args.psi_map_prep = str(Path(args.psi_map_prep).resolve())
 
-  print(Path(args.psi_map_prep))
-
   os.makedirs(args.outdir, exist_ok=True)
   os.chdir(args.outdir)
 
   empty_idx=99999
   for h5_file in h5_files:
-    h5_file=str(h5_file)
-    oidx=' -o processed_'+h5_file.split('/')[-1]
+    h5_input_file=str(h5_file)
+    output_flag=' -o processed_'+h5_input_file.split('/')[-1]
 
-    print('=> Running map : ' +h5_file.split('/')[-1])
+    print('=> Running map : ' +h5_input_file.split('/')[-1])
 
-    print(args.psi_map_prep)
-
-    Command=args.psi_map_prep+' '+h5_file+oidx+ \
-      ' -nt '+str(args.nt)+' -np '+str(args.np)+' -template '+str(args.template)+\
-      ' -mfac '+str(args.multfac)+' -smoothfac '+str(args.smoothfac)
-
+    Command=args.psi_map_prep+' ' + h5_input_file + output_flag
+    if (args.nt is not None):
+      Command=Command+' -nt '+str(args.nt)
+    if (args.np is not None):
+      Command=Command+' -np '+str(args.np)
+    if (args.template is not None):
+      Command=Command+' -template '+str(args.template)
+    if (args.multfac is not None):
+      Command=Command+' -mfac '+str(args.multfac)
+    if (args.smoothfac is not None):
+      Command=Command+' -smoothfac '+str(args.smoothfac)
     if args.hipftexe is not None:
-        Command=Command+' -hipftexe'
-
-    if (args.flux):
+      Command=Command+' -hipftexe'
+    if (not args.flux):
       Command=Command+' -noflux'
-    if (args.smooth):
+    if (not args.smooth):
       Command=Command+' -nosmooth'
-    if (args.remap):
+    if (not args.remap):
       Command=Command+' -noremap'
+
+    print('=> Command: '+Command)
 
     ierr = subprocess.run(["bash","-c",Command])
     check_error_code_NON_CRASH(ierr.returncode,'Failed : '+Command)
