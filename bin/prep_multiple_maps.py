@@ -96,7 +96,7 @@ def run(args):
       args.outdir = str(Path('.').resolve())+'/processed_maps'
 
   # Get all files in input directory
-  h5_files = list(input_directory.glob('*.h5'))
+  h5_files = sorted(list(input_directory.glob('*.h5')))
 
   if len(h5_files) < 1:
     print(' ')
