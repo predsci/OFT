@@ -11,3 +11,9 @@ Open-source Flux Transport (OFT) is a software suite for generating full-Sun mag
   
 OFT includes the SFT model HipFT as a submodule, with additional submodules for the ConFlow convective flow generation code and MagMAP data acquisition/mapping code to be released soon.  
 
+NOTE:  
+ConFlow and MagMAP are currently under development and not presently available.  They should be available within the next couple of months.  
+Sample data from each is available in the zenodo package described in the HipFT module.
+
+
+
