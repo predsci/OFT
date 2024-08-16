@@ -1,4 +1,4 @@
-<img width=500 src="https://github.com/predsci/OFT/assets/4073260/cc737381-833b-4b7b-b07a-b8e48c92cfdc" alt="OFT" />  
+<img width=400 src="https://github.com/predsci/OFT/assets/4073260/cc737381-833b-4b7b-b07a-b8e48c92cfdc" alt="OFT" />  
   
 # OFT: Open Source Flux Transport  
 
@@ -45,7 +45,7 @@ Coming soon.......
 --------------------------------  
   
 
-##NOTE  
+## NOTE  
 MagMAP is currently under development and not presently available.  
 It should be available within the next couple of months.  
 Sample data from each is available in the zenodo package described in the HipFT module.
