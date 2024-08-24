@@ -9,7 +9,7 @@
 ## OVERVIEW  
 Open-source Flux Transport (OFT) is a software suite for generating full-Sun magnetograms through acquiring & processing observational data, generating realistic convective flows, and running them through a surface flux transport (SFT) model.  
 
-OFT includes the SFT code [HipFT](https;//github.com/predsci/hipft) and the convective flow generation code [ConFlow](https;//github.com/predsci/conflow) as submodules, with an additional submodule for the MagMAP data acquisition/mapping code to be released soon.  
+OFT includes the data acquisition/mapping code [MagMAP](https;//github.com/predsci/magmap), the convective flow generation code [ConFlow](https;//github.com/predsci/conflow), and the surface flux transport code [HipFT](https;//github.com/predsci/hipft) as submodules.
   
 --------------------------------  
   
@@ -40,12 +40,7 @@ export PATH=<LOCATION_OF_OFT>/bin:$PATH
 
 ## HOW TO RUN OFT  
   
-Coming soon.......  
+Coming soon...
   
 --------------------------------  
-  
 
-## NOTE  
-MagMAP is currently under development and not presently available.  
-It should be available within the next couple of months.  
-Sample data from each is available in the zenodo package described in the HipFT module.

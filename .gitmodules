@@ -4,3 +4,6 @@
 [submodule "conflow"]
 	path = conflow
 	url = https://github.com/predsci/conflow
+[submodule "magmap"]
+	path = magmap
+	url = https://github.com/predsci/magmap
