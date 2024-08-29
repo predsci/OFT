@@ -22,7 +22,7 @@
 # limitations under the License.
 ########################################################################
 #
-#  Version 1.0.0
+#  Version 1.0.1
 #
 ########################################################################
 
@@ -49,18 +49,18 @@ def argParsing():
                         dest='inputfilename')
 
     parser.add_argument('-o',
-                        help='Output file name.  Default is br_final.h5.',
+                        help='Output file name.  (default: br_final.h5.',
                         dest='outputfilename',
                         required=False)
 
     parser.add_argument('-nt',
-                        help='Uniform theta resolution.',
+                        help='Uniform theta resolution (default: 181).',
                         dest='nt',
                         default='181',
                         required=False)
 
     parser.add_argument('-np',
-                        help='Uniform phi resolution.',
+                        help='Uniform phi resolution (default: 361).',
                         dest='np',
                         default='361',
                         required=False)
@@ -71,7 +71,7 @@ def argParsing():
                         required=False)
 
     parser.add_argument('-mfac',
-                        help='Factor to multiply the Br map by (e.g. 1.4 for HMI to make it more like MDI)',
+                        help='Factor to multiply the Br map by (default: 1.0)',
                         dest='multfac',
                         default=1.0,
                         type=float,
@@ -92,7 +92,7 @@ def argParsing():
                         required=False)
 
     parser.add_argument('-smoothfac',
-                        help='Smoothing factor.',
+                        help='Smoothing factor (default: 0.5)',
                         dest='smoothfac',
                         default='0.5',
                         type=float,
