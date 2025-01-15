@@ -1,0 +1,87 @@
+#
+# Run Description goes here.
+#
+# -----------------------------------------------------------------------------
+# OFT Parameters
+# -----------------------------------------------------------------------------
+#
+run:
+  run_name: 'run1'
+  preexisting_magmap_runname: ''
+  preexisting_conflow_runname: ''
+  date_start: '2022-01-01T00:00:00'
+  date_end:   '2022-01-28T00:00:00'
+  map_resolution:
+    np: 1024
+    nt: 512
+#
+# -----------------------------------------------------------------------------
+# HipFT Parameters
+# -----------------------------------------------------------------------------
+#
+hipft:
+  run:  True
+  overwrite:  False
+  run_command: 'mpirun -np <NP>'
+  mpi_num_procs: 1
+  output_map_cadence_hr: 24  
+  initial_map_filename: ''
+  random_flux_lifetime: 0.3
+  realization_combination_mode: 'sweep1d' #crossall','manual'
+  realization_parameters:
+    diffusion_coefs: [300.0]
+    flow_attenuation_values: [500.0]
+    data_assimilation_mu_limits: [0.1]
+    data_assimilation_mu_powers: [4.0]
+    data_assimilation_lat_limits: [0.0]
+    random_flux_amounts: [150.0]
+    flow_meridional_p1: [22.0]
+    flow_meridional_p3: [11.0]
+    flow_meridional_p5: [-28.0]
+    flow_differential_p0: [46.0]
+    flow_differential_p2: [-262.0]
+    flow_differential_p4: [-379.0]
+#
+# -----------------------------------------------------------------------------
+# HipFT Map Processing Parameters
+# -----------------------------------------------------------------------------
+#
+output_map_processing:
+  run: False
+  overwrite:  False
+  new_map_resolution:
+    np: 361
+    nt: 181
+  #new_map_grid_type: 'psi'  # 'wsa'
+  smoothing_factor: 1.0
+  map_multiplier: 1.0
+#
+# -----------------------------------------------------------------------------
+# HipFT Post Processing Parameters
+# -----------------------------------------------------------------------------
+# This applies to both raw and processed maps if they exist
+#
+hipft_post_process:
+  run:  True
+  overwrite:  False
+#
+# -----------------------------------------------------------------------------
+# ConFlow Parameters
+# -----------------------------------------------------------------------------
+#
+conflow:
+   run:  False
+   overwrite:  False
+#
+# -----------------------------------------------------------------------------
+# MagMAP Parameters
+# -----------------------------------------------------------------------------
+#
+magmap:
+  run:  False
+  overwrite:  False
+  update:  False
+  map_cadence_hr: 6
+  map_source: 'hmi_los'  # also will allow hmi_vec
+#  hmi_vec_los_fac: 
+#
