@@ -1,0 +1,51 @@
+&conflow_input_parameters
+!
+  verbose = .true.
+!
+! ****** Output options.
+!
+  output_flows_on_uniform_grid = .false.
+  output_flows_on_staggered_grid = .true.
+  output_spectrum = .true.
+  output_directory = '.'
+!
+! ****** Resolution.
+!
+  n_lat = 512
+  n_long = 1024
+!
+! ****** Time paramters (seconds).
+!
+  tmax = 2419200.0
+  dtime = 900.0
+!
+! ****** Differential rotation coefficients (m/s).
+!
+  flow_dr_t0 = 46.0
+  flow_dr_t1 = 0.
+  flow_dr_t2 = -262.0
+  flow_dr_t3 = 0.
+  flow_dr_t4 = -379.0
+!
+! ****** Meridional flow coefficients (m/s).
+!
+  flow_mf_s0 = 0.
+  flow_mf_s1 = 22.0
+  flow_mf_s2 = 0.
+  flow_mf_s3 = 11.0
+  flow_mf_s4 = 0.
+  flow_mf_s5 = -28.0
+!
+! ****** Parameter to modify spectrum.
+!
+  spectrum_mod_model = 2
+  spectral_cutoff = 340.0
+!
+! ****** Random seed options.
+!
+  set_random_seed = .false.
+  random_seed_value = 12345
+/
+!
+! RUN DESCRIPTION GOES HERE.
+!
