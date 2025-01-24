@@ -24,8 +24,7 @@
 #
 ########################################################################
 #
-#  Version 1.0.0 :  Description goes here, after this version, changelog
-#                   required for future changes.
+#  Version 1.0.0 :  Initial "working" version.  Still in development.
 #
 ########################################################################
 
@@ -809,7 +808,7 @@ def collect_output_submodule(args):
 # Main Script
 def main():
 
-  version = '0.6.0'
+  version = '1.0.0'
 
   print('')
   print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
