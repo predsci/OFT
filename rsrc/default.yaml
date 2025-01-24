@@ -14,6 +14,9 @@ run:
   map_resolution:
     np: 1024
     nt: 512
+  mpi_run_command: 'mpirun -np <NP>'
+  mpi_num_procs: 1
+  omp_num_threads: ''
 #
 # -----------------------------------------------------------------------------
 # HipFT Parameters
@@ -22,10 +25,10 @@ run:
 hipft:
   run:  True
   overwrite:  False
-  run_command: 'mpirun -np <NP>'
-  mpi_num_procs: 1
   output_map_cadence_hr: 24  
   initial_map_filename: ''
+  initial_map_mult_fac: 1.0
+  data_assimilation_mult_fac: 1.0
   random_flux_lifetime: 0.3
   realization_combination_mode: 'sweep1d' #crossall','manual'
   realization_parameters:
@@ -49,12 +52,12 @@ hipft:
 output_map_processing:
   run: False
   overwrite:  False
-  new_map_resolution:
-    np: 361
-    nt: 181
-  #new_map_grid_type: 'psi'  # 'wsa'
+# Resolution to remap map to in degrees (1 degree = 361x181)
+# Need to check that this is equal or less than raw resolution.
+  map_resolution_delta_deg:  1.0
   smoothing_factor: 1.0
   map_multiplier: 1.0
+  make_wsa_dataset: False
 #
 # -----------------------------------------------------------------------------
 # HipFT Post Processing Parameters
@@ -64,14 +67,16 @@ output_map_processing:
 hipft_post_process:
   run:  True
   overwrite:  False
+  history_plot_samples: 500
+  history_plot_samples_markers: 20
 #
 # -----------------------------------------------------------------------------
 # ConFlow Parameters
 # -----------------------------------------------------------------------------
 #
 conflow:
-   run:  False
-   overwrite:  False
+  run:  False
+  overwrite:  False
 #
 # -----------------------------------------------------------------------------
 # MagMAP Parameters
