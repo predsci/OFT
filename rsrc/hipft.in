@@ -3,6 +3,7 @@
 ! ****** Initial map ********
 !
   initial_map_filename = 'input_map/br_input_map.h5'
+  initial_map_mult_fac = 1.0
 !
 ! ****** Number of realizations ********
 !
@@ -27,7 +28,7 @@
 !
   pole_flux_lat_limit = 30.0
 !
-! ****** PResolution of grid.
+! ****** Resolution of grid.
 !
   res_nt = 512
   res_np = 1024
@@ -40,7 +41,7 @@
 !
   advance_flow = .true.
 !
-! ****** Attenuate the veolcity based on the value of Br.
+! ****** Attenuate the velocity based on the value of Br.
 ! ****** This causes flow to be updated each step.
 ! ****** The attenuate value is the saturation level in Gauss.
 !
@@ -49,6 +50,14 @@
 !
   flow_dr_model = 1
   flow_mf_model = 1
+!  
+  flow_mf_coef_p1_value = 22.0
+  flow_mf_coef_p3_value = 11.0
+  flow_mf_coef_p5_value = -28.0
+!
+  flow_dr_coef_p0_value = 46.0
+  flow_dr_coef_p2_value = -262.0
+  flow_dr_coef_p4_value = -379.0
 !
 ! ****** Time dependent flows from file (used for conflow).
 !
@@ -78,6 +87,8 @@
   assimilate_data_custom_from_mu = .true.
   assimilate_data_mu_limit = 0.1
   assimilate_data_mu_power = 4.0
+  assimilate_data_mult_fac = 1.0
+  assimilate_data_lat_limit = 0.0
 !
 ! ****** RANDOM FLUX ********
 !
