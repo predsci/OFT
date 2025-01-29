@@ -25,7 +25,7 @@ run:
 hipft:
   run:  True
   overwrite:  False
-  output_map_cadence_hr: 24  
+  output_map_cadence_hr: 24
   initial_map_filename: ''
   initial_map_mult_fac: 1.0
   data_assimilation_mult_fac: 1.0
@@ -41,9 +41,11 @@ hipft:
     flow_meridional_p1: [22.0]
     flow_meridional_p3: [11.0]
     flow_meridional_p5: [-28.0]
+    #flow_meridional_amp: [0.9,1.0,1.1]
     flow_differential_p0: [46.0]
     flow_differential_p2: [-262.0]
     flow_differential_p4: [-379.0]
+    #flow_differential_amp: [0.9,1.0,1.1]
 #
 # -----------------------------------------------------------------------------
 # HipFT Map Processing Parameters
@@ -88,5 +90,6 @@ magmap:
   update:  False
   map_cadence_hr: 6
   map_source: 'hmi_los'  # also will allow hmi_vec
+  #index_file_name: 'magmap_maps_all.csv'
 #  hmi_vec_los_fac: 
 #
