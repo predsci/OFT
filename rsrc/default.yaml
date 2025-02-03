@@ -2,19 +2,19 @@
 # Run Description goes here.
 #
 # -----------------------------------------------------------------------------
-# OFT Parameters
+# OFTSWA Parameters
 # -----------------------------------------------------------------------------
 #
 run:
   run_name: 'run1'
   preexisting_magmap_runname: ''
   preexisting_conflow_runname: ''
-  date_start: '2022-01-01T00:00:00'
-  date_end:   '2022-01-28T00:00:00'
+  date_start: '2015-01-01T00:00:00'
+  date_end:   '2015-02-01T00:00:00'
   map_resolution:
     np: 1024
     nt: 512
-  mpi_run_command: 'mpirun -np <NP>'
+  mpi_run_command: 'mpirun -bind-to none -np <NP>'
   mpi_num_procs: 1
   omp_num_threads: ''
 #
@@ -23,14 +23,14 @@ run:
 # -----------------------------------------------------------------------------
 #
 hipft:
-  run:  True
+  run:  False
   overwrite:  False
   output_map_cadence_hr: 24
   initial_map_filename: ''
   initial_map_mult_fac: 1.0
   data_assimilation_mult_fac: 1.0
   random_flux_lifetime: 0.3
-  realization_combination_mode: 'sweep1d' #crossall','manual'
+  realization_combination_mode: 'sweep1d'
   realization_parameters:
     diffusion_coefs: [300.0]
     flow_attenuation_values: [500.0]
@@ -41,11 +41,9 @@ hipft:
     flow_meridional_p1: [22.0]
     flow_meridional_p3: [11.0]
     flow_meridional_p5: [-28.0]
-    #flow_meridional_amp: [0.9,1.0,1.1]
     flow_differential_p0: [46.0]
     flow_differential_p2: [-262.0]
     flow_differential_p4: [-379.0]
-    #flow_differential_amp: [0.9,1.0,1.1]
 #
 # -----------------------------------------------------------------------------
 # HipFT Map Processing Parameters
@@ -54,8 +52,6 @@ hipft:
 output_map_processing:
   run: False
   overwrite:  False
-# Resolution to remap map to in degrees (1 degree = 361x181)
-# Need to check that this is equal or less than raw resolution.
   map_resolution_delta_deg:  1.0
   smoothing_factor: 1.0
   map_multiplier: 1.0
@@ -88,8 +84,6 @@ magmap:
   run:  False
   overwrite:  False
   update:  False
-  map_cadence_hr: 6
-  map_source: 'hmi_los'  # also will allow hmi_vec
-  #index_file_name: 'magmap_maps_all.csv'
-#  hmi_vec_los_fac: 
+  map_cadence_hr: 1
+  map_source: 'hmi_los'
 #
