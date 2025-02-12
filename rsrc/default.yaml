@@ -67,6 +67,7 @@ hipft_post_process:
   overwrite:  False
   history_plot_samples: 500
   history_plot_samples_markers: 20
+  butterfly_averaging_width_hr: 0 
 #
 # -----------------------------------------------------------------------------
 # ConFlow Parameters
