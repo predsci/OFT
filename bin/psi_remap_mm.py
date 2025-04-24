@@ -22,11 +22,12 @@
 # limitations under the License.
 ########################################################################
 #
-#  Version 1.0.0
+#  Version 1.1.0
 #
 ########################################################################
 
 import numpy as np
+import scipy.interpolate as sp
 import argparse
 from pathlib import Path
 #
@@ -59,6 +60,12 @@ def argParsing():
                         dest='template_file',
                         type=str,
                         required=False)
+    parser.add_argument('-resample_template',
+                        help='Resample the template to the resolution specified by nt and np.',
+                        dest='resample_template',
+                        default=False,
+                        action='store_true',
+                        required=False)
     parser.add_argument(help='Output map filename.',
                         dest='output_file',
                         type=str,
@@ -66,6 +73,7 @@ def argParsing():
     return parser.parse_args()
 
 args = argParsing()
+
 
 
 # Get full path of input file:
@@ -77,9 +85,11 @@ if (np.max(xvec) > 3.5):
   tvec_centers_input = yvec
   pvec_centers_input = xvec
   input_data = np.transpose(input_data)
+  tp = False
 else:
   tvec_centers_input = xvec
   pvec_centers_input = yvec
+  tp = True
 
 # Get area metric:
 # Modify boundary points of theta for correct near-pole calcualtions.
@@ -113,6 +123,13 @@ if (args.template_file is not None):
   else:
     tvec_centers_output = xvec
     pvec_centers_output = yvec
+    
+# Now rescale the template to the requested nt and np if desired:
+  if (args.resample_template):
+    tvec_interpolator = sp.interp1d(np.arange(len(tvec_centers_output)), tvec_centers_output, fill_value="extrapolate")
+    tvec_centers_output = tvec_interpolator(np.arange(args.nt)/(args.nt - 1)*(len(tvec_centers_output) - 1))
+    pvec_interpolator = sp.interp1d(np.arange(len(pvec_centers_output)), pvec_centers_output, fill_value="extrapolate")
+    pvec_centers_output = pvec_interpolator(np.arange(args.np)/(args.np - 1)*(len(pvec_centers_output) - 1))
 else:
 # Make uniform grid.
   tvec_centers_output = np.linspace(0,  np.pi,args.nt)
@@ -134,4 +151,9 @@ output_data = downsample_grid.downsamp_reg_grid(input_data, tvec_edges_input,  p
                                                             pvec_edges_output, tvec_edges_output, \
                                                             da=da_input_map)
 # Write out result:
-ps.wrhdf_2d(args.output_file,pvec_centers_output,tvec_centers_output,np.transpose(output_data))
+if (tp):
+  ps.wrhdf_2d(args.output_file,tvec_centers_output,pvec_centers_output,output_data)
+else:
+  ps.wrhdf_2d(args.output_file,pvec_centers_output,tvec_centers_output,np.transpose(output_data))
+  
+  
