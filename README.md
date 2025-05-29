@@ -30,7 +30,7 @@ When pulling updates, to ensure you get the submodule updates as well, use:
 git pull --recurse-submodules
 ```
   
-Once you have the OFT repository with its submodules, follow the instructions in each submodule to install them.  
+Once you have the OFT repository including submodules, follow the installation instructions within each submodule folder.  
 
 All executables/scripts need to be in your PATH for OFT to work.  
 For BASH, we have provided a script that can be sourced to do this:
@@ -51,15 +51,19 @@ OFT has three main components:
  - ConFlow: Generate a sequence of convective flows for use in HipFT  
  - HipFT:   The flux transport model.  
 ```  
-Depending on the use case, using MagMAP and/or ConFlow are optional (for example, when running HipFT without HMI data assimilation and/or without convective flows).  
+Depending on the use case, using MagMAP and/or ConFlow can be  optional (for example, when running HipFT without HMI data assimilation and/or without convective flows).  
+
+See the run instructions in each submodule for further information.  
+
+## OFTSWA for Space Weather Applications (OFTSWA)  
+
+OFTSWA (`bin/oftswa.py`) is a flexible Python tool that links the various software components of OFT. It allows users to easily create ensembles of full-Sun magnetic field maps from start to finish, ready for ingestion into space weather models. A YAML-formatted text file is used to specify the requested details of the full OFT run including post-processing and re-binning of the maps. A default YAML file is included and used to allow user YAML files to be trimmed down for specific tasks.
   
-A sample data set generated using MagMAP and Conflow is provided in the zenodo pacakge:  
+A sample OFTSWA run including pre-computed MagMAP and Conflow datasets is provided in the zenodo package:  
   
-[HipFT Sample Input Dataset for Convective Flows and Data Assimilation](https://zenodo.org/doi/10.5281/zenodo.10271120)
+[OFT Sample Run of Convective Flows and Data Assimilation](https://zenodo.org/records/14799033)
   
-More details on running the full sequence of OFT will be added here later.  
-  
-In the mean time, see the run instructions in each submodule folder's README for further information.  
+Documentation for OFTSWA is provided in [`doc/oftswa`](https://github.com/predsci/OFT/doc/oftswa/index.html).  
   
 --------------------------------  
 

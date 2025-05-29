@@ -1,0 +1,722 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="run.html">
+      
+      
+        <link rel="next" href="run_example.html">
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.50">
+    
+    
+      
+        <title>Input YAML File Details - OFTSWA User Guide v1.0.0</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.a40c8224.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#oftswa-input-yaml-file-details" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="OFTSWA User Guide v1.0.0" class="md-header__button md-logo" aria-label="OFTSWA User Guide v1.0.0" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            OFTSWA User Guide v1.0.0
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Input YAML File Details
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="OFTSWA User Guide v1.0.0" class="md-nav__button md-logo" aria-label="OFTSWA User Guide v1.0.0" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    OFTSWA User Guide v1.0.0
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="install.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="run.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Run Instructions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Input YAML File Details
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="yaml.html" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Input YAML File Details
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#general-oftswa-run-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      General OFTSWA run information:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conflow-convective-flow-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      ConFlow Convective Flow Options
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#magmap-data-assimilation-data-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      MagMAP Data Assimilation Data Options
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hipft-flux-transport-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      HipFT Flux Transport Options
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HipFT Flux Transport Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#realization-parameter-specification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Realization Parameter Specification:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#map-processing-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Map Processing Options
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-processing-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Post Processing Options
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="run_example.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Run Example
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#general-oftswa-run-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      General OFTSWA run information:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conflow-convective-flow-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      ConFlow Convective Flow Options
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#magmap-data-assimilation-data-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      MagMAP Data Assimilation Data Options
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hipft-flux-transport-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      HipFT Flux Transport Options
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HipFT Flux Transport Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#realization-parameter-specification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Realization Parameter Specification:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#map-processing-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Map Processing Options
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-processing-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Post Processing Options
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="oftswa-input-yaml-file-details">OFTSWA Input YAML File Details</h1>
+<p>OFTSWA uses a text file written in a format called YAML to run the model.  A default YAML file is included in the OFT repository in <code>rsrc/default.yaml</code>.  This default YAML file contains all available input parameters, and is loaded during an OFTSWA run.  The user's custom YAML file is then loaded, and any parameters that differ from the default are updated, and the final combined YAML file is used for the run and saved in the output run folder.  The user's YAML file therefore only need specify parameters that differ from the default, allowing for streamlined input files.</p>
+<p>The YAML file is organized into the several sections.  The following is a detailed description of each available parameter, shown as they appear in the default YAML file.  </p>
+<h3 id="general-oftswa-run-information">General OFTSWA run information:</h3>
+<pre><code>run:
+  run_name: 'run1'
+  preexisting_magmap_runname: ''
+  preexisting_conflow_runname: ''
+  date_start: '2022-01-01T00:00:00'
+  date_end:   '2022-01-28T00:00:00'
+  map_resolution:
+    np: 1024
+    nt: 512
+  mpi_run_command: 'mpirun -bind-to none -np &lt;NP&gt;'
+  mpi_num_procs: 1
+  omp_num_threads: ''
+</code></pre>
+<ul>
+<li>
+<p><code>run_name</code>: This is the user's chosen run name.  It is independent of the name of the input YAML file, and will be used as the name of the run directory within the main OFTSWA output run folder.  It is also used to name the final merged YAML file stored in the run folder.</p>
+</li>
+<li>
+<p><code>preexisting_magmap_runname</code>: If not requesting a new MagMAP database of assimilation data, this specifies the run name of a previously existing MagMAP run.  This preexisting database is used with the OFTSWA run and/or is updated based on the parameter choices.</p>
+</li>
+<li>
+<p><code>preexisting_conflow_runname</code>: If not requesting a new ConFlow database of flow data, this specifies the run name of a previously existing ConFlow run.  This preexisting database is used with the OFTSWA run.</p>
+</li>
+<li>
+<p><code>date_start</code>: The UTC date/time for the start of the run.  This is specified in the format 'YYYY-MM-DDTHH:MM:SS'.  This date represents the start date for the HipFT run, and is also used as the initial requested date/time when creating a new MagMAP database.</p>
+</li>
+<li>
+<p><code>date_end</code>: The UTC date/time for the end of the run.  This is specified in the format 'YYYY-MM-DDTHH:MM:SS'.  This date represents the end date for the HipFT run, and is also used as the final requested date/time when creating a new MagMAP database.</p>
+</li>
+<li>
+<p><code>map_resolution</code>: The <code>np</code> and <code>nt</code> parameters in this entry determine or declare the desired resolution for the OFTSWA run.  Here, <code>np</code> is the number of longitudinal (phi) points, while <code>nt</code> is the number of latitudinal points in colatitude (theta).  For OFTSWA runs that are creating new data sets of ConFlow and/or MagMAP, this resolution will be used.  For runs using preexisting ConFlow/MagMAP data sets, the specified resolution must match that used to create the preexisting data sets.  Also, if one is using an initial magnetic map file for the HipFT run, the resolution between that file and that specified here must match.</p>
+</li>
+<li>
+<p><code>mpi_run_command</code>: The command to use when launching MPI codes (currently, only HipFT uses MPI).  The special tag <code>&lt;NP&gt;</code> is replaced by the number of MPI processes when the code is launched.  </p>
+</li>
+<li>
+<p><code>mpi_num_procs</code>: The number of MPI processes to use.  When running on GPUs, this should be set to the number of GPUs per compute node being used.  </p>
+</li>
+<li>
+<p><code>omp_num_threads</code>:  The number of OpenMP threads to use for codes and tools that are multi-threaded on the CPU.  This includes HipFT when running on CPUs, in which case it specifies the number of CPU threads per MPI process.</p>
+</li>
+</ul>
+<p><img width=150 src="./conflow.png" alt="ConFlow" /></p>
+<h3 id="conflow-convective-flow-options">ConFlow Convective Flow Options</h3>
+<pre><code>conflow:
+  run:  False
+  overwrite:  False
+</code></pre>
+<ul>
+<li><code>run</code>: Toggle to run ConFlow (<code>True</code>) or not (<code>False</code>). </li>
+<li><code>overwrite</code>: Toggle to overwrite a previous existing ConFlow run within the run folder.  If set to <code>True</code>, the previous ConFlow run is deleted before the new one is run.  If set to <code>False</code>, if a previous run exists in the run folder, ConFlow will not run. </li>
+</ul>
+<p><img width=300 src="./magmap.png" alt="MagMAP" /></p>
+<h3 id="magmap-data-assimilation-data-options">MagMAP Data Assimilation Data Options</h3>
+<pre><code>magmap:
+  run:  False
+  overwrite:  False
+  update:  False
+  map_cadence_hr: 1
+  map_source: 'hmi_los' 
+</code></pre>
+<ul>
+<li><code>run</code>: Toggle to run MagMAP (<code>True</code>) or not (<code>False</code>). </li>
+<li><code>overwrite</code>: Toggle to overwrite a previous existing MagMAP run within the run folder.  If set to <code>True</code>, the previous MagMAP run is deleted before the new one is run.  If set to <code>False</code>, if a previous run exists in the run folder, MagMAP will not run, unless <code>update</code> is set to <code>True</code> (see below).  </li>
+<li><code>update</code>: If set to <code>True</code>, an update command will be applied to a preexisting MagMAP run.  This will fill in any missing data in the date range that may not have been available during the original launch of the preexisting MagMAP run.</li>
+<li><code>map_cadence_hr</code>: Set the map cadence for data acquisition and mapping in units of hours.</li>
+<li><code>map_source</code>: Set the observational source of the MagMAP data to acquire and map.  Currently, only <code>hmi_los</code> is available.</li>
+</ul>
+<p><img width=300 src="./hipft.png" alt="HipFT" /></p>
+<h3 id="hipft-flux-transport-options">HipFT Flux Transport Options</h3>
+<pre><code>hipft:
+  run:  False
+  overwrite:  False
+  output_map_cadence_hr: 24
+  initial_map_filename: ''
+  initial_map_mult_fac: 1.0
+  data_assimilation_mult_fac: 1.0
+  random_flux_lifetime: 0.3
+  realization_combination_mode: 'sweep1d'
+  realization_parameters:
+    diffusion_coefs: [300.0]
+    flow_attenuation_values: [500.0]
+    data_assimilation_mu_limits: [0.1]
+    data_assimilation_mu_powers: [4.0]
+    data_assimilation_lat_limits: [0.0]
+    random_flux_amounts: [150.0]
+    flow_meridional_p1: [22.0]
+    flow_meridional_p3: [11.0]
+    flow_meridional_p5: [-28.0]
+    flow_differential_p0: [46.0]
+    flow_differential_p2: [-262.0]
+    flow_differential_p4: [-379.0]
+</code></pre>
+<ul>
+<li><code>run</code>: Toggle to run HipFT (<code>True</code>) or not (<code>False</code>)</li>
+<li><code>overwrite</code>: Toggle to overwrite a previous existing HipFT run within the run folder.  If set to <code>True</code>, the previous HipFT run is deleted before the new one is run.  If set to <code>False</code>, if a previous run exists in the run folder, HipFT will not run. </li>
+<li><code>output_map_cadence_hr</code>: Set the output map cadence for HipFT in units of hours. This can differ from the cadence of the MagMAP and ConFlow runs.</li>
+<li><code>initial_map_filename</code>: Set the full path to the chosen input full-Sun magnetic map.  The file must have the HipFT grid format and the same resolution as the current HipFT run.  If no map is specified, the run will start with a zero-value map.</li>
+<li><code>initial_map_mult_fac</code>:  Factor to multiply the initial map in HipFT.  </li>
+<li><code>data_assimilation_mult_fac</code>: Factor to multiply the MagMAP assimilated data before ingestion into HipFT.</li>
+<li><code>random_flux_lifetime</code>: Time span (in hours) between successive random flux generation.</li>
+</ul>
+<h4 id="realization-parameter-specification">Realization Parameter Specification:</h4>
+<p>A key feature of OFTSWA is specifying a range of realization parameters to run.<br />
+Three modes of specifying the parameters are implemented:<br />
+ 1) <code>sweep1d</code>:<br />
+For each list of parameters, span the range given while keeping all other parameters at default values.  For example, if one sets <code>par1=[a,b,c]</code> and <code>par2=[d,e,f]</code>, and assuming the default.yaml defines <code>par1=[a]</code> and <code>par2=[d]</code>, there would be 5 realizations: <code>(a,d),(b,d),(c,d),(a,e),(a,f)</code>.  The defaults can be changed by using a double list syntax, for example, <code>par1=[[g][a,b,c,g]]</code>.  This would set the default to <code>g</code> for all other parameters' 1D sweeps.  </p>
+<p>2) <code>crossall</code>: <br />
+All possible combinations of the lists of parameters are combined and used.  Any parameter not specified uses the default for all realizations, and any parameter that is set to a single value, resets the default.  For example, if one sets <code>par1=[a,b,c]</code>, <code>par2=[d,e,f]</code>, and <code>par3=[g]</code>, there will be 9 realizations: <code>(a,d,g),(a,e,g),(a,f,g),(b,d,g),(b,e,g),(b,f,g),(c,d,g),(c,e,g),(c,f,g)</code>.  </p>
+<p>3) <code>manual</code>:<br />
+This mode requires the user to manually specify the full list for each parameter one wants to vary.  Any parameter not specified uses the default for all realizations, and any parameter that is set to a single value, resets the default.  For example, to specify the realizations shown in the <code>sweep1d</code> example above, one would need to set: <code>par1=[a,b,c,a,a]</code> and <code>par2=[d,d,d,e,f]</code>.</p>
+<ul>
+<li><code>realization_combination_mode</code>: Set the combination mode described above.  Options are <code>sweep1d</code>, <code>crossall</code>, or <code>manual</code>.</li>
+<li><code>realization_parameters</code>: For each of the following, they can be specified as single lists (<code>[a,b,c]</code>) or double lists (<code>[[g][a,b,c]]</code>).  See above for the description of what each means.  For more details on what each parameter does in the model, see <a href="https://arxiv.org/pdf/2501.06377">OFT Paper I</a>.<ul>
+<li><code>diffusion_coefs</code>: Diffusion coefficient in units of km^2/s.</li>
+<li><code>flow_attenuation_values</code>:  Field strength in Gauss to saturate the flow velocities.</li>
+<li><code>data_assimilation_mu_limits</code>: Data cutoff in mu=cos(theta) for assimilated data.</li>
+<li><code>data_assimilation_mu_powers</code>: Power for scaling weights for assimilated data.</li>
+<li><code>data_assimilation_lat_limits</code>: Data cutoff in degrees latitude for assimilated data.</li>
+<li><code>random_flux_amounts</code>: Amplitude of random flux emergence in units of 10^21 Mx/hr.</li>
+<li><code>flow_meridional_p1</code>: Factor for cos(theta) term in the analytic meridional flow profile in m/s.</li>
+<li><code>flow_meridional_p3</code>: Factor for cos^3(theta) term in the analytic meridional flow profile in m/s.</li>
+<li><code>flow_meridional_p5</code>: Factor for cos^5(theta) term in the analytic meridional flow profile in m/s.</li>
+<li><code>flow_differential_p0</code>: Factor for scalar term in the analytic differential rotation flow profile in m/s.</li>
+<li><code>flow_differential_p2</code>: Factor for cos^2(theta) term in the analytic differential rotation flow profile in m/s.</li>
+<li><code>flow_differential_p4</code>: Factor for cos^4(theta) term in the analytic differential rotation flow profile in m/s.</li>
+</ul>
+</li>
+</ul>
+<h3 id="map-processing-options">Map Processing Options</h3>
+<pre><code>output_map_processing:
+  run: False
+  overwrite: False
+  map_resolution_delta_deg: 1.0
+  smoothing_factor: 1.0
+  map_multiplier: 1.0
+  make_wsa_dataset: False
+</code></pre>
+<ul>
+<li><code>run</code>: Toggle to run map processing of the HipFT output (<code>True</code>) or not (<code>False</code>)</li>
+<li><code>overwrite</code>:  Toggle to overwrite a previous existing map processing.  If set to <code>True</code>, the previous map processing results are deleted before new ones are computed.  If set to <code>False</code>, if previous map processing results exist in the run folder, no map processing will be computed.</li>
+<li><code>map_resolution_delta_deg</code>:  Re-bin the maps to the chosen resolution using a flux-preserving method.  The resolution is specified by the delta-angle in degrees (e.g. setting to 1.0 will produce 361x181 maps).</li>
+<li><code>smoothing_factor</code>: If set, maps will be smoothed after any re-binning using the  surface diffusion advance in HipFT.  This factor determines the level of smoothing.</li>
+<li><code>map_multiplier</code>: If set, maps will be multiplied by this scalar.</li>
+<li><code>make_wsa_dataset</code>:  Toggle (<code>True</code>/<code>False</code>) to produce an additional set of maps with the same resolution as the processed maps, but on the grid format used in the WSA model (e.g. a 361x181 processed map becomes a 360x180 WSA input map).</li>
+</ul>
+<h3 id="post-processing-options">Post Processing Options</h3>
+<pre><code>hipft_post_process:
+  run:  True
+  overwrite:  False
+  history_plot_samples: 500
+  history_plot_samples_markers: 20
+</code></pre>
+<ul>
+<li><code>run</code>: Toggle to run post processing of the HipFT output and processed maps (<code>True</code>) or not (<code>False</code>)</li>
+<li><code>overwrite</code>: Toggle to overwrite a previous existing post processing within the run folder.  If set to <code>True</code>, the previous post processing results are deleted before new ones are computed.  If set to <code>False</code>, if previous post processing results exist in the run folder, no post processing will be computed.</li>
+<li><code>history_plot_samples</code>: Set the number of data points to use for the lines in the HipFT history plots.</li>
+<li><code>history_plot_samples_markers</code>: Set the number of data points to use for the markers in the HipFT history plots.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.60a45f97.min.js"></script>
+      
+    
+  </body>
+</html>
