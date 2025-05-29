@@ -63,7 +63,7 @@ A sample OFTSWA run including pre-computed MagMAP and Conflow datasets is provid
   
 [OFT Sample Run of Convective Flows and Data Assimilation](https://zenodo.org/records/14799033)
   
-Documentation for OFTSWA is provided in [`doc/oftswa`](doc/oftswa/index.html).  
+Documentation for OFTSWA is provided in [`doc/oftswa`](https://htmlpreview.github.io/?https://github.com/predsci/OFt/doc/oftswa/index.html).  
   
 --------------------------------  
 
