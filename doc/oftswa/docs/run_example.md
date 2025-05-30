@@ -8,10 +8,9 @@ file for OFTSWA for the run.
 
 The YAML file and run data are available in a zenodo package.
 
-### Install OFT & OFTSWA  
+### Install OFT  
 
-To run the example, first make sure OFT is properly installed  
-including `oftswa.py` as described in the [installation instructions]<install.md>.  
+To run the example, first make sure OFT is properly installed as described in the [installation instructions]<install.md>.  
 
 ### Make a Main Run Directory  
 ```
