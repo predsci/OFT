@@ -1,5 +1,5 @@
-# OFTSWA Installation Instructions
-# <font color="#0000FF">Linux Ubuntu-based (20.04/22.04) distributions</font>
+# OFT Installation Instructions
+# <font color="#0000FF">Linux Ubuntu-based (20.04/22.04/24.04) distributions</font>
 ### Install the required Ubuntu packages:  
   
 ```
@@ -16,21 +16,11 @@ mkdir oft
 mkdir oft/code
 cd oft/code
 ```
-### Clone the git repository:  
+### Clone the OFT git repository:  
 ```
 git clone --recursive https://github.com/predsci/OFT.git .
 ```
-### Install OFTSWA:  
-The main OFTSWA script called `oftswa.py` provided with this package is not yet part 
-of the github repository.  
-With the username and password given to you by PSI, you can download the script here: 
-```
-https://predsci.com/downloads/ccmc_oftswa_sbir_phase1/oftswa.py
-```
-After downloading the script, copy it into the OFT bin folder:
-```
-cp oftswa.py <PATH-TO-INSTALL-TO>/oft/code/bin/  
-```
+  
 ### Enter the HipFT directory and build HipFT:  
 ```
 cd hipft
