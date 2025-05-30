@@ -1,0 +1,14 @@
+site_name: OFTSWA User Guide v1.0.0
+site_url: ''
+use_directory_urls: false
+
+
+theme: material
+
+nav: 
+  - Introduction: index.md
+  - Installation: install.md
+  - Run Instructions: run.md
+  - Input YAML File Details: yaml.md
+  - Run Example: run_example.md
+
