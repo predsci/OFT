@@ -24,6 +24,7 @@
 #
 ########################################################################
 #
+#  Version 1.4.3 :  Fixed OMP_NUM_THREADS reporting.
 #  Version 1.4.2 :  Now if smoothing is set to 0, no smoothing is done.
 #  Version 1.4.1 :  Error checking and yaml output not overwritten (indexed).
 #  Version 1.4.0 :  Added butterfly plot options.
@@ -1216,16 +1217,14 @@ def main():
     os.environ['OMP_NUM_THREADS'] = str(int(omp_num_threads))
   else:
     # Check and output the enironment OMP_NUM_THREADS
-    if omp_num_threads and omp_num_threads.isdigit() and int(omp_num_threads) > 0:
-      print(f'==> OMP_NUM_THREADS set by environment:  {omp_num_threads}')
-    elif omp_num_threads:
-      check_err(1,'OMP_NUM_THREADS in environment must be integer greater than zero: {omp_num_threads}')
+    if original_omp_num_threads:
+      print(f'==> OMP_NUM_THREADS set by environment:  {original_omp_num_threads}')
     else:
       print(f'==> OMP_NUM_THREADS not set, using default threads')
 
   # Get the number of mpi_num_procs from the YAML
   tmp = run_params.get('mpi_num_procs')
-  print(f'==> MPI processes/ranks:         {tmp}')
+  print(f'==> MPI processes/ranks:                 {tmp}')
   
   print('')
   print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
