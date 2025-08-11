@@ -24,6 +24,7 @@
 #
 ########################################################################
 #
+#  Version 1.4.4 :  Changed output to avoid reporting an error when no error was there.
 #  Version 1.4.3 :  Fixed OMP_NUM_THREADS reporting.
 #  Version 1.4.2 :  Now if smoothing is set to 0, no smoothing is done.
 #  Version 1.4.1 :  Error checking and yaml output not overwritten (indexed).
@@ -1326,12 +1327,12 @@ def main():
       post_processing_submodule(args, run_params, hipft_post_process_params, 'raw')
     else:
       # If output_maps does not exists give warning
-      print('==> hipft post process could not run. Path did not exist:')
+      print('==> HipFT post-processing could not run. Path did not exist:')
       print(f'\t {os.path.join(args.orun, "hipft", "output_maps")}')
   else:
     # If run set to False only add date information to the HipFT output map list
+    print('==> Adding dates to map output list...')
     get_hipft_add_dates_to_map_output_list(args, run_params, "output_maps")
-    print('==> Post processing is disabled.')
 
   print('')  
   print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
@@ -1369,8 +1370,8 @@ def main():
       print(f'\t {os.path.join(args.orun, "hipft", "processed_maps")}')
   else:
     # If run set to False only add date information to the HipFT output map list
+    print('==> Adding dates to map output list...')
     get_hipft_add_dates_to_map_output_list(args, run_params, "output_maps")
-    print('==> Post processing is disabled')
 
 #  print('')  
 #  print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
