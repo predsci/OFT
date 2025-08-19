@@ -142,21 +142,15 @@ def run(args):
     print('=> Command: '+Command)
 
     ierr = subprocess.run(["bash","-c",Command])
-    check_error_code_NON_CRASH(ierr.returncode,'Failed : '+Command)
+    check_error_code(ierr.returncode,'Failed : '+Command, should_exit=False)
 
-def check_error_code_NON_CRASH(ierr,message):
+def check_error_code(ierr,message,should_exit=True):
   if ierr > 0:
     print(' ')
     print(message)
     print('Error code of fail : '+str(ierr))
-
-
-def check_error_code(ierr,message):
-  if ierr > 0:
-    print(' ')
-    print(message)
-    print('Error code of fail : '+str(ierr))
-    sys.exit(1)
+    if should_exit:
+      sys.exit(1)
 
 
 def main():
