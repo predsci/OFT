@@ -24,6 +24,7 @@
 #
 ########################################################################
 #
+#  Version 1.5.0 :  Added flux balancing options.
 #  Version 1.4.4 :  Changed output to avoid reporting an error when no error was there.
 #  Version 1.4.3 :  Fixed OMP_NUM_THREADS reporting.
 #  Version 1.4.2 :  Now if smoothing is set to 0, no smoothing is done.
@@ -32,7 +33,6 @@
 #  Version 1.3.6 :  Initial version.
 #
 ########################################################################
-
 import signal
 import sys
 import argparse
@@ -48,6 +48,8 @@ import glob
 import numpy as np
 import h5py as h5
 import re
+
+version = '1.5.0'
 
 def signal_handler(signal, frame):
         print('You pressed Ctrl+C! Stopping!')
@@ -538,6 +540,10 @@ def hipft_submodule(args, hipft_params, run_params):
     if hipft_params.get('output_map_cadence_hr'):
       sed('output_map_time_cadence', hipft_params.get('output_map_cadence_hr'), 'hipft.in')
     
+    # Update hipft.in with output flux balance
+    if hipft_params.get('output_map_flux_balance') is not None:
+      sed('output_map_flux_balance', hipft_params.get('output_map_flux_balance'), 'hipft.in')      
+    
     # Check if initial_map_filename specified
     if hipft_params.get('initial_map_filename'):
       # Make the input_map folder
@@ -580,6 +586,10 @@ def hipft_submodule(args, hipft_params, run_params):
     # Update hipft.in with data_assimilation_mult_fac
     if hipft_params.get('data_assimilation_mult_fac'):
       sed('assimilate_data_mult_fac', hipft_params.get('data_assimilation_mult_fac'), 'hipft.in')
+     
+    # Update hipft.in with data_assimilation_balance_flux
+    if hipft_params.get('data_assimilation_balance_flux') is not None:
+      sed('assimilate_data_balance_flux', hipft_params.get('data_assimilation_balance_flux'), 'hipft.in')      
 
     # Update hipft.in with np and nt
     if map_resolution_params:
@@ -1046,8 +1056,14 @@ def sed(match, value, file):
     It replaces the entire line containing the 'match' string with a new line 
     containing 'match = value'.
   """
+  
+  # Set logicals to the correct Fortran value.
+  if (value is True):
+    value = ".true."
+  if (value is False):
+    value = ".false."
+  
   os.system(f'sed -i "s|.*{match}.*|  {match} = {value}|" "{file}"')
-  #os.system(f"sed -i 's/.{str(match)}./  {str(match)} = {str(value)}/' {str(file)}")
 
 
 def generate_unique_filename(base_name, extension):
@@ -1125,8 +1141,6 @@ def main():
   """
     This is the main master call function. 
   """
-  version = '1.4.1'
-
   print('')
   print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
   print('                       ╔═╗╔═╗╔╦╗╔═╗╦ ╦╔═╗')

@@ -14,6 +14,7 @@
 !
   output_map_time_cadence = 24.0
   output_history_time_cadence = 0.25
+  output_map_flux_balance = .false.
 !
 ! ****** Time ********
 !
