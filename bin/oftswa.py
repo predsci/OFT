@@ -111,7 +111,7 @@ def check_oft_loaded(args):
 
       # Verify that all required subdirectories are present in PATH
       if all(subdir in path_dirs for subdir in required_subdirs):
-        print(f'    ==> Found OFT installation: {oft_dir}')
+        print('    ==> Found OFT installation:', oft_dir)
         # Store the OFT installation path in args and return
         args.oft_dir = oft_dir
         return
@@ -134,14 +134,14 @@ def read_run_yaml(args):
   """
   # Define the path to the default YAML file
   default_yaml = os.path.join(args.oft_dir, 'rsrc','default.yaml')
-  print(f'    ==> Reading default yaml file from OFT rsrc directory.')
+  print('    ==> Reading default yaml file from OFT rsrc directory.')
 
   # Load the default YAML configuration
   with open(default_yaml, 'r') as stream:
     default_data = yaml.safe_load(stream)
   
   # Load the user-provided YAML configuration
-  print(f'    ==> Reading user input yaml file.')
+  print('    ==> Reading user input yaml file.')
   with open(args.input_yaml_file, 'r') as stream:
     input_data = yaml.safe_load(stream)
 
@@ -149,7 +149,7 @@ def read_run_yaml(args):
   is_sweep1d = input_data.get('hipft', {}).get('realization_combination_mode') == 'sweep1d'
 
   # Merge the default and user-provided YAML configurations
-  print(f'    ==> Merging default and user yaml files.')
+  print('    ==> Merging default and user yaml files.')
   deep_update(default_data, input_data, is_sweep1d)
 
   # Replace empty string values with None to standardize missing data representation
@@ -220,7 +220,7 @@ def conflow_submodule(args, conflow_params, run_params):
   if not os.path.isdir(conflow_dir) or conflow_params.get('overwrite') is True:
     # Handle overwrite logic
     if conflow_params.get('overwrite') is True:
-      print(f'    ==> Overwriting existing conflow run folder...')
+      print('    ==> Overwriting existing conflow run folder...')
       # Remove symbolic link if it exists
       if os.path.islink(conflow_dir):
           os.unlink(conflow_dir)
@@ -230,7 +230,7 @@ def conflow_submodule(args, conflow_params, run_params):
 
     # Create the conflow directory and change to it
     os.makedirs(conflow_dir, exist_ok=True)
-    print(f'    ==> Conflow output folder: {conflow_dir}')
+    print('    ==> Conflow output folder:', conflow_dir)
     os.chdir(conflow_dir)
 
     # Copy conflow.dat from the OFT directory
@@ -263,7 +263,7 @@ def conflow_submodule(args, conflow_params, run_params):
     os.chdir(args.orun)
   else:
     # Inform the user if a previous conflow run folder exists
-    print(f'    ==> Previous conflow run folder found.')
+    print('    ==> Previous conflow run folder found.')
 
 
 def rdhdf_2d_dims(h5_filename):
@@ -293,7 +293,7 @@ def preexist_magmap_submodule(args, preexisting_magmap_runname, run_params):
   # Get the absolute path of the preexisting MagMAP directory
   preexisting_magmap = os.path.join(args.outdir, preexisting_magmap_runname,'magmap')
   preexisting_magmap = os.path.abspath(preexisting_magmap)
-  print(f'    ==> Preexisting magmap specified: {preexisting_magmap}')
+  print('    ==> Preexisting magmap specified:', preexisting_magmap)
 
   # Check if the specified MagMAP directory exists
   if os.path.isdir(preexisting_magmap):
@@ -323,8 +323,8 @@ def preexist_magmap_submodule(args, preexisting_magmap_runname, run_params):
     magmap_start_utc = pytz.utc.localize(magmap_start)
     if magmap_start_utc > period_start_utc:
       print('    ==> NOTE: Specified start date is before the first available MagMAP map:')
-      print(f'        ==> Specified start date:  {period_start_utc}')
-      print(f'        ==> MagMAP first map date: {magmap_start_utc}')
+      print('        ==> Specified start date: ', period_start_utc)
+      print('        ==> MagMAP first map date:', magmap_start_utc)
 
     # Check the magmap end date to the input yaml end date
     period_end = datetime.strptime(run_params.get("date_end"), '%Y-%m-%dT%H:%M:%S')
@@ -333,8 +333,8 @@ def preexist_magmap_submodule(args, preexisting_magmap_runname, run_params):
     magmap_end_utc = pytz.utc.localize(magmap_end)
     if magmap_end_utc < period_end_utc:
       print('    ==> NOTE: Specified end date is past the final available MagMAP map.')
-      print(f'        ==> Specified end date:    {period_end_utc}')
-      print(f'        ==> MagMAP final map date: {magmap_end_utc}')
+      print('        ==> Specified end date:   ', period_end_utc)
+      print('        ==> MagMAP final map date:', magmap_end_utc)
 
     # Check the dimensions (NP, NT) of the map data from the first file in the preexisting MagMAP run
     file = os.path.join(magmap_dir,'magmap_data_maps',data['map_path'].iloc[0])
@@ -369,7 +369,7 @@ def magmap_submodule(args, magmap_params, run_params):
       check_err(1, 'Cannot update and overwite magmap at the same time!')
     # Handle overwriting the existing MagMAP directory
     if magmap_params.get('overwrite') is True:
-      print(f'    ==> Overwriting existing magmap run folder')
+      print('    ==> Overwriting existing magmap run folder')
       # Remove symbolic link if it exists
       if os.path.islink(magmap_dir):
           os.unlink(magmap_dir)
@@ -378,11 +378,11 @@ def magmap_submodule(args, magmap_params, run_params):
           shutil.rmtree(magmap_dir)
     # Handle updating an existing MagMAP directory
     if magmap_params.get('update') is True:
-      print(f'    ==> Updating existing magmap run folder')
+      print('    ==> Updating existing magmap run folder')
 
     # Create the MagMAP directory and change to it
     os.makedirs(magmap_dir, exist_ok=True)
-    print(f'    ==> Created magmap output folder: {magmap_dir}')
+    print('    ==> Created magmap output folder:', magmap_dir)
     os.chdir(magmap_dir)
 
     # MagMAP data disks location
@@ -391,9 +391,9 @@ def magmap_submodule(args, magmap_params, run_params):
     # This is a secret option for advance users...
     # If a raw data directory is provided, create a symbolic link to it
     if magmap_params.get('raw_data_dir'):
-      print(f'    ==> Existing download directory provided for magmap_get_data.py :')
+      print('    ==> Existing download directory provided for magmap_get_data.py :')
       existing_magmap_data_disks = os.path.abspath(magmap_params.get('raw_data_dir'))
-      print(f'\t {existing_magmap_data_disks}')
+      print('\t', existing_magmap_data_disks)
       magmap_data_disks = os.path.join(magmap_dir, 'magmap_data_disks')
       # Create symbolic link to existing raw data directory
       if not os.path.islink(magmap_data_disks):
@@ -403,16 +403,16 @@ def magmap_submodule(args, magmap_params, run_params):
       else:
         print('    ==> Symbolic link already exists :')
       print('    ==> Creating symbolic link to :')
-      print(f'\t {magmap_data_disks}')
+      print('\t', magmap_data_disks)
       # Skip fetching data if raw data directory is provided
-      print(f'    ==> Skipping magmap_get_data.py') 
+      print('    ==> Skipping magmap_get_data.py')
     # If no raw data directory is provided, fetch data using magmap_get_data.py
     else:
-      print(f'    ==> Running magmap_get_data.py')
+      print('    ==> Running magmap_get_data.py')
       # Construct the command to run the magmap_get_data.py
       command = 'magmap_get_data.py'
-      print(f'    ==> Download directory for magmap_get_data.py is :')
-      print(f'\t {magmap_data_disks}')
+      print('    ==> Download directory for magmap_get_data.py is :')
+      print('\t', magmap_data_disks)
       # Output directory
       command += f' -odir {magmap_data_disks}'
       # Map cadence parameter
@@ -437,11 +437,11 @@ def magmap_submodule(args, magmap_params, run_params):
     # Run magmap_disk2map.py to convert the downloaded data into magnetogram maps
     # Construct the command to run the magmap_disk2map.py
     command = f'magmap_disk2map.py {magmap_data_disks}'
-    print(f'    ==> Running magmap_disk2map.py')
-    print(f'    ==> Magnetogram disk images data directory is :')
+    print('    ==> Running magmap_disk2map.py')
+    print('    ==> Magnetogram disk images data directory is :')
     # MagMAP data maps location
     magmap_data_maps = os.path.join(magmap_dir, 'magmap_data_maps')
-    print(f'\t {magmap_data_maps}')
+    print('\t', magmap_data_maps)
     # Output directory
     command += f' -odir {magmap_data_maps}'
 
@@ -476,7 +476,7 @@ def magmap_submodule(args, magmap_params, run_params):
     # Return to the original directory
     os.chdir(args.orun)
   else:
-    print(f'    ==> Previous magmap run folder exits!')
+    print('    ==> Previous magmap run folder exits!')
 
   # Get the date range in the 'magmap_maps_all.csv
   csv_filepath = os.path.join(magmap_dir, 'magmap_data_maps/index_files', 'magmap_maps_all.csv')
@@ -491,8 +491,8 @@ def magmap_submodule(args, magmap_params, run_params):
   magmap_start_utc = pytz.utc.localize(magmap_start)
   if magmap_start_utc > period_start_utc:
     print('    ==> NOTE: Specified start date is before the first available MagMAP map:')
-    print(f'        ==> Specified start date:  {period_start_utc}')
-    print(f'        ==> MagMAP first map date: {magmap_start_utc}')
+    print('        ==> Specified start date: ', period_start_utc)
+    print('        ==> MagMAP first map date:', magmap_start_utc)
 
   # Check the magmap end date to the input yaml end date
   period_end = datetime.strptime(run_params.get("date_end"), '%Y-%m-%dT%H:%M:%S')
@@ -501,8 +501,8 @@ def magmap_submodule(args, magmap_params, run_params):
   magmap_end_utc = pytz.utc.localize(magmap_end)
   if magmap_end_utc < period_end_utc:
     print('    ==> NOTE: Specified end date is past the final available MagMAP map.')
-    print(f'        ==> Specified end date:    {period_end_utc}')
-    print(f'        ==> MagMAP final map date: {magmap_end_utc}')
+    print('        ==> Specified end date:   ', period_end_utc)
+    print('        ==> MagMAP final map date:', magmap_end_utc)
 
   # Return the first observation datetime from the preexisting MagMAP run
   return first_obs_datetime
@@ -519,7 +519,7 @@ def hipft_submodule(args, hipft_params, run_params):
   if not os.path.isdir(hipft_dir) or hipft_params.get('overwrite') is True:
     # Handle overwrite logic
     if hipft_params.get('overwrite') is True:
-      print(f'    ==> Overwriting existing HipFT run folder')
+      print('    ==> Overwriting existing HipFT run folder')
       try:
         shutil.rmtree(hipft_dir)
       except FileNotFoundError:
@@ -527,14 +527,14 @@ def hipft_submodule(args, hipft_params, run_params):
       
     # Create the HipFT directory and change to it
     os.makedirs(hipft_dir, exist_ok=True)
-    print(f'    ==> Created HipFT output folder')
+    print('    ==> Created HipFT output folder')
     os.chdir(hipft_dir)
 
     # Copy hipft.in from the OFT directory
     hipft_in_new = os.path.join(hipft_dir, "hipft.in")
     hipft_in = os.path.join(args.oft_dir, "rsrc", "hipft.in")
     shutil.copy(hipft_in, hipft_in_new)  
-    print(f'    ==> Copied HipFT template input file to run directory')
+    print('    ==> Copied HipFT template input file to run directory')
 
     # Update hipft.in with output map cadence
     if hipft_params.get('output_map_cadence_hr'):
@@ -565,11 +565,11 @@ def hipft_submodule(args, hipft_params, run_params):
       if not os.path.islink(to_link):
         relative_path = os.path.relpath(from_link, input_map_dir)
         os.symlink(relative_path, to_link)
-        print(f'    ==> Creating symbolic link to {input_map_dir}')
+        print('    ==> Creating symbolic link to', input_map_dir)
       else:
-        print(f'    ==> Symbolic link already exists: {input_map_dir}')
+        print('    ==> Symbolic link already exists:', input_map_dir)
       sed('initial_map_filename', "'input_map/br_input_map.h5'", 'hipft.in')
-      print(f'    ==> Initial map found: {input_map}')
+      print('    ==> Initial map found:', input_map)
     else:
       print('    ==> WARNING: Initial map not specified, a zero-value map will be used')
       sed('initial_map_filename', '', 'hipft.in')
@@ -626,7 +626,7 @@ def hipft_submodule(args, hipft_params, run_params):
     sed('time_end', start_time+time_difference, 'hipft.in')
 
     # Run hipft_input_lists.py to expand realizations into input file
-    print(f'    ==> HipFT: Expanding realizations into input file...') 
+    print('    ==> HipFT: Expanding realizations into input file...')
     command = f'hipft_input_lists.py {args.output_yaml_file} {hipft_in_new}'
     ierr = subprocess.run(["bash","-c",command],stdout=args.logout,stderr=args.logerr)
     check_err(ierr.returncode, f'Failed: {command}')
@@ -670,7 +670,7 @@ def hipft_submodule(args, hipft_params, run_params):
     # Change back to the original directory
     os.chdir(args.orun)
   else:
-    print(f'    ==> Previous HipFT run folder exists')
+    print('    ==> Previous HipFT run folder exists')
 
 
 def check_pt(file, run_params):
@@ -741,8 +741,8 @@ def post_processing_submodule(args, run_params, hipft_post_process_params, step)
   
   # If dry run is not enabled, execute the post-processing command
   if not args.dry_run:
-    print(f'    ==> Running post processing...')  
-    print(f'    ==> Running post processing with command: {command}',file=args.logout)
+    print('    ==> Running post processing...')
+    print('    ==> Running post processing with command:', command,file=args.logout)
     args.logout.flush()
     args.logerr.flush()    
     ierr = subprocess.run(["bash","-c",command],stdout=args.logout,stderr=args.logerr)
@@ -806,11 +806,11 @@ def map_process(args, output_map_processing_params, hipft_params):
 
   # Check if previous run exists and stop if not overwriting
   if os.path.isdir(processed_maps_dir) and not output_map_processing_params.get('overwrite') is True:
-     print(f'    ==> Previous processed_maps folder exits!')
+     print('    ==> Previous processed_maps folder exits!')
   else:
     # Overwrite existing processed maps folder if specified
     if output_map_processing_params.get('overwrite') is True:
-      print(f'    ==> Overwriting existing processed_maps folder')
+      print('    ==> Overwriting existing processed_maps folder')
       try:
         shutil.rmtree(processed_maps_dir)
       except FileNotFoundError:
@@ -818,7 +818,7 @@ def map_process(args, output_map_processing_params, hipft_params):
       
     # Create the processed_maps folder and temporary folder for map processing
     os.makedirs(processed_maps_dir, exist_ok=True)
-    print(f'    ==> Created processed_maps folder: processed_maps')
+    print('    ==> Created processed_maps folder: processed_maps')
     os.makedirs(processed_maps_temp_dir, exist_ok=True)
 
     # List original (3D) output maps
@@ -842,11 +842,11 @@ def map_process(args, output_map_processing_params, hipft_params):
         check_err(10,'Invalid number of dimensions ({ndims}) in {file_list[0]}') 
  
     # Change to temporary directory for processed maps
-    print(f'    ==> Entering processed maps temporary directory: processed_maps/temp')
+    print('    ==> Entering processed maps temporary directory: processed_maps/temp')
     os.chdir(processed_maps_temp_dir)
 
     # Iterate over output maps and extract or copy them
-    print(f'    ==> Extracting/copying output maps:')
+    print('    ==> Extracting/copying output maps:')
     for output_map in output_maps_list:
       if is3d:
         command = f'hipft_extract_realization.py {output_map}'
@@ -854,7 +854,7 @@ def map_process(args, output_map_processing_params, hipft_params):
         temp_map=Path(output_map).stem+'.h5'
         command = f'cp {output_map} {temp_map}'
       idx_current = int(re.search(r'idx(\d+)', output_map).group(1))
-      print(f'\r        ==> Extracting/copying map {idx_current}/{tf}', end = " ") 
+      print(f'\r        ==> Extracting/copying map {idx_current}/{tf}', end = " ")
       ierr = subprocess.run(["bash","-c",command],stdout=args.logout,stderr=args.logerr)
       check_err(ierr.returncode, f'Failed: {command}')
       args.logout.flush()
@@ -866,7 +866,7 @@ def map_process(args, output_map_processing_params, hipft_params):
     maps_in_temp_list = sorted(glob.glob(maps_in_temp))
 
     # Process the maps with psi_map_prep
-    print(f'    ==> Processing output maps with psi_map_prep.py...')
+    print('    ==> Processing output maps with psi_map_prep.py...')
     realization_list = sorted({match.group(0) for f in maps_in_temp_list if (match := re.search(r'r(\d+)', f))})
     rf = int(realization_list[-1][1:]) if realization_list else None
     # Process each map file based on the realization index
@@ -874,7 +874,7 @@ def map_process(args, output_map_processing_params, hipft_params):
       for map in maps_in_temp_list:
         r_current = int(re.search(r'r(\d+)', map).group(1))
         idx_current = int(re.search(r'idx(\d+)', map).group(1))
-        print(f'\r        ==> Processing map index: {idx_current}/{tf} realization: {r_current}/{rf}', end = " ") 
+        print(f'\r        ==> Processing map index: {idx_current}/{tf} realization: {r_current}/{rf}', end = " ")
         fullCommand = f'psi_map_prep.py {map} {command_map_prep}'
         ierr = subprocess.run(["bash","-c",fullCommand],stdout=args.logout,stderr=args.logerr)
         check_err(ierr.returncode, f'Failed : {fullCommand}')
@@ -883,7 +883,7 @@ def map_process(args, output_map_processing_params, hipft_params):
     else:
       for map in maps_in_temp_list:
         idx_current = int(re.search(r'idx(\d+)', map).group(1))
-        print(f'\r        ==> Processing map index: {idx_current}/{tf}', end = " ") 
+        print(f'\r        ==> Processing map index: {idx_current}/{tf}', end = " ")
         fullCommand = f'psi_map_prep.py {map} {command_map_prep}'
         ierr = subprocess.run(["bash","-c",fullCommand],stdout=args.logout,stderr=args.logerr)
         check_err(ierr.returncode, f'Failed : {fullCommand}')
@@ -942,9 +942,9 @@ def map_process(args, output_map_processing_params, hipft_params):
       # Create necessary directories for WSA data
       os.makedirs(processed_maps_wsa_temp_dir, exist_ok=True)
       os.makedirs(processed_maps_wsa_dir, exist_ok=True)
-      print(f'    ==> Created processed_maps_wsa folder: processed_maps_wsa')
+      print('    ==> Created processed_maps_wsa folder: processed_maps_wsa')
       # Change to temporary directory for WSA grid data
-      print(f'    ==> Entering processed maps temporary directory: processed_maps_wsa/temp')
+      print('    ==> Entering processed maps temporary directory: processed_maps_wsa/temp')
       os.chdir(processed_maps_wsa_temp_dir)
 
       # Adjust resolution for WSA grid
@@ -966,7 +966,7 @@ def map_process(args, output_map_processing_params, hipft_params):
       processed_maps_list = sorted(glob.glob(processed_maps_pattern))
 
       # Iterate over files in hipft processed_maps
-      print(f'    ==> Extracting/copying processed maps to temporary folder:')
+      print('    ==> Extracting/copying processed maps to temporary folder:')
       for processed_map in processed_maps_list:
         if is3d:
           command = f'hipft_extract_realization.py {processed_map}'
@@ -986,7 +986,7 @@ def map_process(args, output_map_processing_params, hipft_params):
       maps_in_temp_list = sorted(glob.glob(maps_in_temp))
 
       # Iterate over files in processed_maps_temp_dir and run psi_map_prep
-      print(f'    ==> Processing processed maps with psi_map_prep.py ...')
+      print('    ==> Processing processed maps with psi_map_prep.py ...')
       if rf:
         for map in maps_in_temp_list:
           r_current = int(re.search(r'r(\d+)', map).group(1))
@@ -1025,7 +1025,7 @@ def map_process(args, output_map_processing_params, hipft_params):
       print()
 
       # Move final processed maps to processed_maps_dir
-      print(f'    ==> Moving processed maps on WSA grid from temp folder to processed_maps_wsa')
+      print('    ==> Moving processed maps on WSA grid from temp folder to processed_maps_wsa')
       for idx in idx_list:
         oname = os.path.join(processed_maps_wsa_temp_dir, f'processed_hipft_brmap_{idx}.h5')
         fname = os.path.join(processed_maps_wsa_dir, f'hipft_brmap_{idx}.h5')
@@ -1074,8 +1074,9 @@ def generate_unique_filename(base_name, extension):
   counter = 0
   # Loop until a unique filename is found
   while True:
+    counter_str = f'_{counter}' if counter > 0 else ''
     # Create the filename with or without a counter based on the current value
-    filename = f"{base_name}{f'_{counter}' if counter > 0 else ''}{extension}"
+    filename = f"{base_name}{counter_str}{extension}"
     # Check if the file already exists
     if not os.path.exists(filename):
       # If the counter is greater than 0, print a warning that the base file existed
@@ -1133,7 +1134,7 @@ def check_if_file_is_empty(file_path):
     try:
         return os.path.exists(file_path) and os.stat(file_path).st_size == 0
     except Exception as e:
-        print(f"Error checking file: {e}")
+        print("Error checking file:", e)
         return False
     
 
@@ -1159,13 +1160,13 @@ def main():
     print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
     print()
 
-  print(f'==> Checking for OFT installation.')
-  
+  print('==> Checking for OFT installation.')
+
   # Checks if the OFT environment is loaded
   check_oft_loaded(args)
 
-  print(f'==> Reading input file: {args.input_yaml_file}')
-  #print(f'==> Reading input file: {args.input_yaml_file}',file=args.logput)
+  print('==> Reading input file:', args.input_yaml_file)
+  #print('==> Reading input file:', args.input_yaml_file, file=args.logput)
 
   # Reads and merges the default and user-provided YAML files
   yaml_data = read_run_yaml(args)
@@ -1175,7 +1176,7 @@ def main():
   if current_date.upper() == "now":
     current_date = datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
     yaml_data['run']['date_end'] = current_date
-    print(f"==> Date end set to current date: {current_date}")
+    print("==> Date end set to current date:", current_date)
   else:
     try:
         datetime.strptime(current_date, '%Y-%m-%dT%H:%M:%S')
@@ -1187,7 +1188,7 @@ def main():
   runname = run_params.get('run_name')
   if not runname:
     sys.exit("ERROR: A runname must be provided in the input yaml file")
-  print(f'==> Run name: {runname}')
+  print('==> Run name:', runname)
 
   # Get the path to the output directory
   args.outdir = args.outdir or os.path.join(os.getcwd(), 'oftswa_runs')
@@ -1196,7 +1197,7 @@ def main():
   # Check if the run exists and create or overwrite it
   args.orun = os.path.join(args.outdir, runname)
   if args.overwrite:
-    print(f'==> Removing preexisting run folder (overwrite requested)')
+    print('==> Removing preexisting run folder (overwrite requested)')
     try:
       shutil.rmtree(args.orun)
     except FileNotFoundError:
@@ -1204,17 +1205,15 @@ def main():
   if (os.path.isdir(args.orun)):
     print(f'==> WARNING: A run called {runname} already exists.')
   os.makedirs(args.orun, exist_ok=True)
-  print(f'==> Output directory: {args.orun}')
+  print('==> Output directory:', args.orun)
 
   # Output the run yaml file
-  args.output_yaml_file = generate_unique_filename(os.path.join(args.outdir, runname, f'{runname}'),'.yaml')
-  
-  
+  args.output_yaml_file = generate_unique_filename(os.path.join(args.outdir, runname, str(runname)),'.yaml')
   with open(args.output_yaml_file, 'w') as stream:
       yaml.add_representer(list, represent_pair_of_lists)
       yaml.dump(yaml_data, stream)
-  print(f'==> Run parameters written to: {args.output_yaml_file}')
-  
+  print('==> Run parameters written to:', args.output_yaml_file)
+
   # specify the logout and logerr files
   log_base_name = os.path.join(args.orun,'oftswa')
   log_filename = generate_unique_filename(log_base_name, ".log")
@@ -1228,14 +1227,14 @@ def main():
 
   if omp_num_threads:
     # Set OMP_NUM_THREADS from YAML
-    print(f'==> OMP_NUM_THREADS set by input yaml file: {omp_num_threads}')
+    print('==> OMP_NUM_THREADS set by input yaml file:', omp_num_threads)
     os.environ['OMP_NUM_THREADS'] = str(int(omp_num_threads))
   else:
     # Check and output the enironment OMP_NUM_THREADS
     if original_omp_num_threads:
-      print(f'==> OMP_NUM_THREADS set by environment:  {original_omp_num_threads}')
+      print('==> OMP_NUM_THREADS set by environment: ', original_omp_num_threads)
     else:
-      print(f'==> OMP_NUM_THREADS not set, using default threads')
+      print('==> OMP_NUM_THREADS not set, using default threads')
 
   # Get the number of mpi_num_procs from the YAML
   tmp = run_params.get('mpi_num_procs')
@@ -1256,7 +1255,7 @@ def main():
     # Get path to preexisting conflow run folder
     preexisting_conflow = os.path.join(args.outdir, preexisting_conflow_runname,'conflow')
     preexisting_conflow = os.path.abspath(preexisting_conflow)
-    print(f'    ==> Preexisting ConFlow specified: {preexisting_conflow}')
+    print('    ==> Preexisting ConFlow specified:', preexisting_conflow)
     if os.path.isdir(preexisting_conflow):
       # Get the preexisting conflow.dat
       preexisting_conflow_dat = os.path.join(preexisting_conflow, 'conflow.dat')
@@ -1277,9 +1276,9 @@ def main():
       if not os.path.islink(conflow_dir):
         relative_path = os.path.relpath(preexisting_conflow, args.orun)
         os.symlink(relative_path, conflow_dir)
-        print(f'    ==> Symbolic link to ConFlow run created.')
+        print('    ==> Symbolic link to ConFlow run created.')
       else:
-        print(f'    ==> Symbolic link to ConFlow run already exists.')
+        print('    ==> Symbolic link to ConFlow run already exists.')
     else:
       check_err(1, '==> ERROR: Could not find the preexisting ConFlow run.')
   elif conflow_params.get('run') is True:
@@ -1342,7 +1341,7 @@ def main():
     else:
       # If output_maps does not exists give warning
       print('==> HipFT post-processing could not run. Path did not exist:')
-      print(f'\t {os.path.join(args.orun, "hipft", "output_maps")}')
+      print('\t', os.path.join(args.orun, "hipft", "output_maps"))
   else:
     # If run set to False only add date information to the HipFT output map list
     print('==> Adding dates to map output list...')
@@ -1381,7 +1380,7 @@ def main():
     else:
       # If processed_maps does not exists give warning
       print('==> ERROR! HipFT post process on processed maps failed. Path did not exist:')
-      print(f'\t {os.path.join(args.orun, "hipft", "processed_maps")}')
+      print('\t', os.path.join(args.orun, "hipft", "processed_maps"))
   else:
     # If run set to False only add date information to the HipFT output map list
     print('==> Adding dates to map output list...')
@@ -1402,7 +1401,7 @@ def main():
 
   # Set the environment OMP_NUM_THREADS back to it's original value
   if original_omp_num_threads and omp_num_threads:
-    print(f'==> Resetting environment OMP_NUM_THREADS back to: {original_omp_num_threads}')
+    print('==> Resetting environment OMP_NUM_THREADS back to:', original_omp_num_threads)
     os.environ['OMP_NUM_THREADS'] = original_omp_num_threads
 
   print()

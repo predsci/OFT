@@ -30,7 +30,7 @@ import argparse
 import psi_io
 
 def argParsing():
-    parser = argparse.ArgumentParser(\
+    parser = argparse.ArgumentParser(
              description='Make 2D longitude-colatitude inner mesh template.  This is a grid that does not include points at phi=0 and phi=2*pi, nor theta=0 and theta=pi.  The points are cell centers, whose edges fill the domain.  This is the grid that the WSA model uses.')
     parser.add_argument('-np',
                         help='phi (longitude) resolution (default 360).',
@@ -72,32 +72,30 @@ def main():
     tvec = np.linspace(dt/2.0,180-dt/2.0,num=NT)
     pvec = np.linspace(dp/2.0,360-dp/2.0,num=NP)
 
-#    print('NT:         '+str(NT))
-#    print('NP:         '+str(NP))
-#    print('DT:         '+str(dt))
-#    print('DP:         '+str(dp))
-#    print('DT0:        '+str(tvec[1]-tvec[0]))
-#    print('DP0:        '+str(pvec[1]-pvec[0]))
-#    print('DTN:        '+str(tvec[NT-1]-tvec[NT-2]))
-#    print('DPN:        '+str(pvec[NP-1]-pvec[NP-2]))    
-#    print('min(theta): '+str(np.min(tvec)))
-#    print('max(theta): '+str(np.max(tvec)))
-#    print('min(phi):   '+str(np.min(pvec)))
-#    print('max(phi):   '+str(np.max(pvec)))
+    #print('NT:        ', str(NT))
+    #print('NP:        ', str(NP))
+    #print('DT:        ', str(dt))
+    #print('DP:        ', str(dp))
+    #print('DT0:       ', str(tvec[1]-tvec[0]))
+    #print('DP0:       ', str(pvec[1]-pvec[0]))
+    #print('DTN:       ', str(tvec[NT-1]-tvec[NT-2]))
+    #print('DPN:       ', str(pvec[NP-1]-pvec[NP-2]))
+    #print('min(theta):', str(np.min(tvec)))
+    #print('max(theta):', str(np.max(tvec)))
+    #print('min(phi):  ', str(np.min(pvec)))
+    #print('max(phi):  ', str(np.max(pvec)))
 
     tvec_rad = tvec*(np.pi/180.0)
     pvec_rad = pvec*(np.pi/180.0)
 
-#    print('min(theta) (rad): '+str(np.min(tvec_rad)))
-#    print('max(theta) (rad): '+str(np.max(tvec_rad)))
-#    print('min(phi)   (rad): '+str(np.min(pvec_rad)))
-#    print('max(phi)   (rad): '+str(np.max(pvec_rad)))
- 
+    #print('min(theta) (rad):', str(np.min(tvec_rad)))
+    #print('max(theta) (rad):', str(np.max(tvec_rad)))
+    #print('min(phi)   (rad):', str(np.min(pvec_rad)))
+    #print('max(phi)   (rad):', str(np.max(pvec_rad)))
+
     data = np.zeros((NT,NP))
 
     psi_io.wrhdf_2d(oname,pvec_rad,tvec_rad,data)
 
 if __name__ == '__main__':
     main()
-
-
