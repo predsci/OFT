@@ -859,7 +859,7 @@ def map_process(args, output_map_processing_params, hipft_params):
       check_err(ierr.returncode, f'Failed: {command}')
       args.logout.flush()
       args.logerr.flush()
-    print('')
+    print()
     
     # Get all maps in temporary folder
     maps_in_temp = os.path.join(processed_maps_temp_dir, 'hipft_brmap_idx*.h5')
@@ -889,7 +889,7 @@ def map_process(args, output_map_processing_params, hipft_params):
         check_err(ierr.returncode, f'Failed : {fullCommand}')
         args.logout.flush()
         args.logerr.flush()
-    print('')
+    print()
 
     # If 3D files, pack them back into a cube
     if is3d:
@@ -905,7 +905,7 @@ def map_process(args, output_map_processing_params, hipft_params):
         check_err(ierr.returncode, f'Failed: {command}')
         args.logout.flush()
         args.logerr.flush()
-      print('')        
+      print()
 
     # Move final processed maps to the main directory
     for idx in idx_list:
@@ -978,8 +978,8 @@ def map_process(args, output_map_processing_params, hipft_params):
         ierr = subprocess.run(["bash","-c",command],stdout=args.logout,stderr=args.logerr)
         check_err(ierr.returncode, f'Failed: {command}')
         args.logout.flush()
-        args.logerr.flush()        
-      print('')        
+        args.logerr.flush()
+      print()
 
       #Get all maps in processed_maps_temp_dir
       maps_in_temp = os.path.join(processed_maps_wsa_temp_dir, 'hipft_brmap_idx*.h5')
@@ -1006,7 +1006,7 @@ def map_process(args, output_map_processing_params, hipft_params):
           check_err(ierr.returncode, f'Failed : {fullCommand}')
           args.logout.flush()
           args.logerr.flush()
-      print('')
+      print()
 
       # If 3d files pack back into a cube
       if is3d:
@@ -1022,7 +1022,7 @@ def map_process(args, output_map_processing_params, hipft_params):
           check_err(ierr.returncode, f'Failed: {command}')
           args.logout.flush()
           args.logerr.flush()
-      print('')
+      print()
 
       # Move final processed maps to processed_maps_dir
       print(f'    ==> Moving processed maps on WSA grid from temp folder to processed_maps_wsa')
@@ -1141,23 +1141,23 @@ def main():
   """
     This is the main master call function. 
   """
-  print('')
+  print()
   print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
   print('                       ╔═╗╔═╗╔╦╗╔═╗╦ ╦╔═╗')
   print('                       ║ ║╠╣  ║ ╚═╗║║║╠═╣')
   print('                       ╚═╝╚   ╩ ╚═╝╚╩╝╩ ╩')
   print(f'                          Version {version}')
   print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-  print('')
+  print()
 
   # Get input parameters
   args = argParsing()
   if args.dry_run:
-    print('')
+    print()
     print('                   Dry run mode activated!!                       ')
-    print('')
+    print()
     print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-    print('')
+    print()
 
   print(f'==> Checking for OFT installation.')
   
@@ -1240,13 +1240,13 @@ def main():
   # Get the number of mpi_num_procs from the YAML
   tmp = run_params.get('mpi_num_procs')
   print(f'==> MPI processes/ranks:                 {tmp}')
-  
-  print('')
+
+  print()
   print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
   print('                            CONFLOW')
   print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-  print('')
-  
+  print()
+
   # Check if an preexisting conflow was specified and get the conflow parameters
   preexisting_conflow_runname = run_params.get('preexisting_conflow_runname')
   conflow_params = yaml_data.get('conflow', {})
@@ -1288,13 +1288,13 @@ def main():
     conflow_submodule(args, conflow_params, run_params)
   else:
     print('==> WARNING: ConFlow disabled.')
-  
-  print('')  
+
+  print()
   print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
   print('                            MAGMAP')
   print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-  print('')  
-  
+  print()
+
   # Check if an preexisting MagMAP was specified and get the MagMAP parameters
   preexisting_magmap_runname = run_params.get('preexisting_magmap_runname')
   magmap_params = yaml_data.get('magmap', {})
@@ -1310,11 +1310,11 @@ def main():
   else:
     print('==> WARNING: MagMAP disabled')
 
-  print('')  
+  print()
   print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
   print('                            HIPFT')
   print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-  print('')  
+  print()
 
   # Get the HipFT parameters
   hipft_params = yaml_data.get('hipft', {})
@@ -1324,13 +1324,13 @@ def main():
     hipft_submodule(args, hipft_params, run_params)
   else:
     print('==> HipFT is disabled.')
-    
-  print('')  
+
+  print()
   print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
   print('                         POST PROCESSING')
   print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-  print('')  
-  
+  print()
+
   # Get the HipFT post-processing parameters
   hipft_post_process_params = yaml_data.get('hipft_post_process', {})
   if hipft_post_process_params.get('run') is True:
@@ -1348,12 +1348,12 @@ def main():
     print('==> Adding dates to map output list...')
     get_hipft_add_dates_to_map_output_list(args, run_params, "output_maps")
 
-  print('')  
+  print()
   print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
   print('                         MAP PROCESSING')
   print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-  print('')  
-  
+  print()
+
   # Get the HipFT map-processing parameters
   output_map_processing_params = yaml_data.get('output_map_processing', {})
   if output_map_processing_params.get('run') is True:
@@ -1365,13 +1365,13 @@ def main():
 
   # Run HipFT post-processing if run set to True
   if (hipft_post_process_params.get('run') is True):
-  
-    print('')  
+
+    print()
     print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
     print('                  PROCESSED MAPS POST PROCESSING')
     print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-    print('')  
-    
+    print()
+
     # Get the HipFT post-processing parameters
     hipft_post_process_params = yaml_data.get('hipft_post_process', {})
     if os.path.isdir(os.path.join(args.orun, "hipft", "processed_maps")):
@@ -1387,7 +1387,7 @@ def main():
     print('==> Adding dates to map output list...')
     get_hipft_add_dates_to_map_output_list(args, run_params, "output_maps")
 
-#  print('')  
+#  print()
 #  print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
 #  print('                         COLLECTING OUTPUT')
 #  print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%') 
@@ -1396,21 +1396,21 @@ def main():
 #  if not args.dry_run:
 #    collect_output_submodule(args)
 
-  print('')  
+  print()
   print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-  print('')
+  print()
 
   # Set the environment OMP_NUM_THREADS back to it's original value
   if original_omp_num_threads and omp_num_threads:
     print(f'==> Resetting environment OMP_NUM_THREADS back to: {original_omp_num_threads}')
     os.environ['OMP_NUM_THREADS'] = original_omp_num_threads
 
-  print('')  
+  print()
   print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
   print('                      OFTSWA RUN COMPLETE!')
   print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-  print('')  
-  
+  print()
+
   args.logout.close()
   args.logerr.close()
 

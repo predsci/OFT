@@ -136,12 +136,12 @@ inputfilename = str(Path(args.inputfilename).resolve())
 if args.outputfilename is None:
   args.outputfilename = 'processed_'+fileroot+ext
 
-print('')
+print()
 print('############################################################')
 print('#####  PSI MAP PREP')
 print('#####  Input map name: '+args.inputfilename)
 print('############################################################')
-print('')
+print()
 
 print('=> Making temporary directory \'map_processing\'')
 os.makedirs('map_processing', exist_ok=True)
@@ -162,7 +162,7 @@ if (args.multfac != 1.0):
 
 
 if args.remap:
-    print('')
+    print()
     print('=> Remapping map to specified grid.')
     if args.template is not None:
       strtmp = '-template '+args.template
@@ -216,9 +216,9 @@ print('=> Copying final map.')
 os.chdir('../')
 os.system('cp map_processing/'+curr_name+ext+' '+args.outputfilename)
 
-print('')
+print()
 print('############################################################')
 print('#####  Final map ready!')
 print('#####  Final map name: '+args.outputfilename)
 print('############################################################')
-print('')
+print()
