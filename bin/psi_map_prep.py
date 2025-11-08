@@ -147,7 +147,7 @@ print('=> Making temporary directory \'map_processing\'')
 os.makedirs('map_processing', exist_ok=True)
 os.chdir('map_processing')
 print('=> Making soft link br'+ext+' to input file.')
-os.system('ln -sf '+inputfilename+' br'+ext)
+subprocess.run(['ln', '-sf', inputfilename, 'br'+ext])
 curr_name='br'
 
 
@@ -165,11 +165,13 @@ if args.remap:
     print('')
     print('=> Remapping map to specified grid.')
     if args.template is not None:
-      strtmp = '-template '+args.template
+      strtmp = ['-template', str(args.template)]
     else:
-      strtmp = '-nt '+args.nt+' -np '+args.np
-    command = sys.path[0]+'/psi_remap_mm.py '+strtmp+' '+curr_name+ext+' '+curr_name+'_remapped'+ext
-    subprocess.run(["bash","-c",command])
+      strtmp = ['-nt', str(args.nt), '-np', str(args.np)]
+    command = [sys.executable, sys.path[0]+'/psi_remap_mm.py',
+               *strtmp,
+               curr_name+ext, curr_name+'_remapped'+ext]
+    subprocess.run(command)
     curr_name = curr_name+'_remapped'
     print('=> Wrote file: '+curr_name+ext)
 
@@ -205,16 +207,16 @@ if args.smooth or args.flux:
         f.close()
 #     - Run Hipft
 #       ERROR CHECK - make sure hipft is in the path!
-        command='mpiexec -np 1 '+args.hipftexe+' 1>hipft.log 2>hipft.err'
+        command=['mpiexec', '-np', '1', args.hipftexe, '1>hipft.log', '2>hipft.err']
         print('    => Running HipFT with command: '+command)
-        subprocess.run(["bash","-c",command])
-        os.system('mv '+curr_name+'_final'+ext+' '+curr_name+ext)
+        subprocess.run(command)
+        subprocess.run(['mv', curr_name+'_final'+ext, curr_name+ext])
 
 
 # - Get result back (final step).
 print('=> Copying final map.')
 os.chdir('../')
-os.system('cp map_processing/'+curr_name+ext+' '+args.outputfilename)
+subprocess.run(['cp', 'map_processing/'+curr_name+ext, args.outputfilename])
 
 print('')
 print('############################################################')

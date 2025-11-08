@@ -254,7 +254,7 @@ def conflow_submodule(args, conflow_params, run_params):
     # Run the conflow simulation if not in dry-run mode
     if not args.dry_run:
       command = 'conflow'
-      ierr = subprocess.run(["bash","-c",command],stdout=args.logout,stderr=args.logerr)
+      ierr = subprocess.run(command,stdout=args.logout,stderr=args.logerr)
       check_err(ierr.returncode, f'Failed: {command}')
       args.logout.flush()
       args.logerr.flush()
@@ -410,14 +410,14 @@ def magmap_submodule(args, magmap_params, run_params):
     else:
       print(f'    ==> Running magmap_get_data.py')
       # Construct the command to run the magmap_get_data.py
-      command = 'magmap_get_data.py'
+      command = [sys.executable, 'magmap_get_data.py']
       print(f'    ==> Download directory for magmap_get_data.py is :')
       print(f'\t {magmap_data_disks}')
       # Output directory
-      command += f' -odir {magmap_data_disks}'
+      command += ['-odir', magmap_data_disks]
       # Map cadence parameter
       if magmap_params.get('map_cadence_hr'):
-        command += f' -cadence {magmap_params.get("map_cadence_hr")}'
+        command += ['-cadence', str(magmap_params.get("map_cadence_hr"))]
 
       # Ensure the start and end dates are provided in the run parameters
       if not run_params.get('date_start'):
@@ -425,25 +425,25 @@ def magmap_submodule(args, magmap_params, run_params):
       if not run_params.get('date_end'):
         check_err(1, 'No date_end under Run Parameters')
       # Add start and end dates to the command
-      command += f' {run_params.get("date_start")} {run_params.get("date_end")}'
+      command += [str(run_params.get("date_start")), str(run_params.get("date_end"))]
 
       # If not a dry run, execute the command to fetch the data
       if not args.dry_run:
-        ierr = subprocess.run(["bash","-c",command],stdout=args.logout,stderr=args.logerr)
+        ierr = subprocess.run(command,stdout=args.logout,stderr=args.logerr)
         check_err(ierr.returncode, f'Failed: {command}')
         args.logout.flush()
         args.logerr.flush()
 
     # Run magmap_disk2map.py to convert the downloaded data into magnetogram maps
     # Construct the command to run the magmap_disk2map.py
-    command = f'magmap_disk2map.py {magmap_data_disks}'
+    command = ['magmap_disk2map.py', magmap_data_disks]
     print(f'    ==> Running magmap_disk2map.py')
     print(f'    ==> Magnetogram disk images data directory is :')
     # MagMAP data maps location
     magmap_data_maps = os.path.join(magmap_dir, 'magmap_data_maps')
     print(f'\t {magmap_data_maps}')
     # Output directory
-    command += f' -odir {magmap_data_maps}'
+    command += ['-odir', magmap_data_maps]
 
     # Ensure the start and end dates are provided in the run parameters
     if not run_params.get('date_start'):
@@ -451,24 +451,26 @@ def magmap_submodule(args, magmap_params, run_params):
     if not run_params.get('date_end'):
       check_err(1, 'No date_end under Run Parameters')
     # Add start and end dates to the command
-    command += f' -startdate {run_params.get("date_start")} -enddate {run_params.get("date_end")}'
+    command += ['-startdate', str(run_params.get("date_start")),
+                '-enddate', str(run_params.get("date_end"))]
     # Add the map resolution parameters from the input run parameters
     map_resolution_params = run_params.get('map_resolution')
     if map_resolution_params:
-      print(f'    ==> Magnetogram disk images will have size:  {map_resolution_params.get("np")} x {map_resolution_params.get("nt")}')
-      command += f' -npout {map_resolution_params.get("np")}'
-      command += f' -ntout {map_resolution_params.get("nt")}'
+      np = map_resolution_params.get("np")
+      nt = map_resolution_params.get("nt")
+      print(f'    ==> Magnetogram disk images will have size:  {np} x {nt}')
+      command += ['-npout', str(np), '-ntout', str(nt)]
     
     # Add the map_source
 #   map_source = magmap_params.get('map_source'):
 #   if (map_source == 'hmi_los' or map_source == 'hmi_vec'):
-#      command += f' -obs {map_source}'
+#      command += ['-obs', map_source]
 #   else:
-#      print(f'ERROR!  MagMAP source ({map_source}) invalid!  Valid options: hmi_los, hmi_vec.'
+#      print(f'ERROR!  MagMAP source ({map_source}) invalid!  Valid options: hmi_los, hmi_vec.')
     
     # Execute the command if not a dry run
     if not args.dry_run:
-      ierr = subprocess.run(["bash","-c",command],stdout=args.logout,stderr=args.logerr)
+      ierr = subprocess.run(command,stdout=args.logout,stderr=args.logerr)
       check_err(ierr.returncode, f'Failed: {command}')
       args.logout.flush()
       args.logerr.flush()
@@ -551,8 +553,8 @@ def hipft_submodule(args, hipft_params, run_params):
       os.makedirs(input_map_dir, exist_ok=True)
       # Copy initial_map_filename into the input_map folder
       input_map = Path(hipft_params.get('initial_map_filename')).resolve()
-      command = f'cp {input_map} {input_map_dir}'
-      ierr = subprocess.run(["bash","-c",command],stdout=args.logout,stderr=args.logerr)
+      command = ['cp', str(input_map), str(input_map_dir)]
+      ierr = subprocess.run(command,stdout=args.logout,stderr=args.logerr)
       check_err(ierr.returncode, command)
       args.logout.flush()
       args.logerr.flush()
@@ -627,8 +629,8 @@ def hipft_submodule(args, hipft_params, run_params):
 
     # Run hipft_input_lists.py to expand realizations into input file
     print(f'    ==> HipFT: Expanding realizations into input file...') 
-    command = f'hipft_input_lists.py {args.output_yaml_file} {hipft_in_new}'
-    ierr = subprocess.run(["bash","-c",command],stdout=args.logout,stderr=args.logerr)
+    command = [sys.executable, 'hipft_input_lists.py', args.output_yaml_file, hipft_in_new]
+    ierr = subprocess.run(command,stdout=args.logout,stderr=args.logerr)
     check_err(ierr.returncode, f'Failed: {command}')
     args.logout.flush()
     args.logerr.flush()
@@ -654,8 +656,9 @@ def hipft_submodule(args, hipft_params, run_params):
       print(f'    ==> HipFT: Running code with {ranks} MPI process(es)...')
 
       # Execute HipFT
-      command = f'{run_params.get("mpi_run_command", "").replace("<NP>", str(ranks))} hipft hipft.in 1>hipft.log 2>hipft.err'
-      ierr = subprocess.run(["bash","-c",command],stdout=args.logout,stderr=args.logerr)
+      command = [run_params.get("mpi_run_command", "").replace("<NP>", str(ranks)),
+                 'hipft', 'hipft.in', '1>hipft.log' '2>hipft.err']
+      ierr = subprocess.run(command,stdout=args.logout,stderr=args.logerr)
       check_err(ierr.returncode, f'Failed: {command}')
       args.logout.flush()
       args.logerr.flush()
@@ -708,36 +711,38 @@ def post_processing_submodule(args, run_params, hipft_post_process_params, step)
   os.chdir(post_processing_dir)
 
   # Construct the command to run the post-processing script
-  command = 'hipft_post_process_all.py'
-  # Set the output directory
-  command += f' -output_dir {post_processing_dir}'
-  # Set the run directory for HipFT data
-  command += f' -rundir {os.path.join(args.orun, "hipft")}'
-  # Samples for plotting
-  command += f' -history_plot_samples {hipft_post_process_params.get("history_plot_samples")}'
-  # Number plot markers
-  command += f' -history_plot_samples_markers {hipft_post_process_params.get("history_plot_samples_markers")}'
-  # Butterfly options
-  command += f' -butterfly_make_options "-al {hipft_post_process_params.get("butterfly_averaging_width_hr")}"'
+  command = [
+      'hipft_post_process_all.py',
+      # Set the output directory
+      '-output_dir', post_processing_dir,
+      # Set the run directory for HipFT data
+      '-rundir', os.path.join(args.orun, "hipft"),
+      # Samples for plotting
+      '-history_plot_samples', str(hipft_post_process_params.get("history_plot_samples")),
+      # Number plot markers
+      '-history_plot_samples_markers', str(hipft_post_process_params.get("history_plot_samples_markers")),
+      # Butterfly options
+      '-butterfly_make_options', f'-al {hipft_post_process_params.get("butterfly_averaging_width_hr")}',
+  ]
 
   # Determine the correct output path based on the step type ('raw' or 'processed')
   if step == 'raw':
     # Raw output path
-    command += f' -outpath {os.path.join(args.orun, "hipft", "output_maps")}'
+    command += ['-outpath', os.path.join(args.orun, "hipft", "output_maps")]
   elif step == 'processed':
     # Processed output path
-    command += f' -outpath {os.path.join(args.orun, "hipft", "processed_maps")}'
+    command += ['-outpath', os.path.join(args.orun, "hipft", "processed_maps")]
     # History directory for processed data
-    command += f' -hist_dir {os.path.join(args.orun, "hipft", "processed_maps")}'
+    command += ['-hist_dir', os.path.join(args.orun, "hipft", "processed_maps")]
 
   # Ensure the start date is provided in the run parameters and add it to the command
   if not run_params.get('date_start'):
     check_err(1, 'No date_start under Run Parameters')
-  command += f' -utstart {run_params.get("date_start")}'
+  command += ['-utstart', run_params.get("date_start")]
 
   # If 'overwrite' flag is set, include it in the command
   if hipft_post_process_params.get('overwrite') is True:
-    command += f' -overwrite'
+    command += ['-overwrite']
   
   # If dry run is not enabled, execute the post-processing command
   if not args.dry_run:
@@ -745,7 +750,7 @@ def post_processing_submodule(args, run_params, hipft_post_process_params, step)
     print(f'    ==> Running post processing with command: {command}',file=args.logout)
     args.logout.flush()
     args.logerr.flush()    
-    ierr = subprocess.run(["bash","-c",command],stdout=args.logout,stderr=args.logerr)
+    ierr = subprocess.run(command,stdout=args.logout,stderr=args.logerr)
     check_err(ierr.returncode, f'Failed: {command}')
     args.logout.flush()
     args.logerr.flush()
@@ -770,7 +775,7 @@ def map_process(args, output_map_processing_params, hipft_params):
   map_resolution_delta_deg = output_map_processing_params.get('map_resolution_delta_deg')
 
   # Initialize command string for map preparation
-  command_map_prep=''
+  command_map_prep = []
 
   # Adjust map resolution based on the specified delta
   if map_resolution_delta_deg:
@@ -779,17 +784,16 @@ def map_process(args, output_map_processing_params, hipft_params):
     new_nt = int(np.ceil(180.0/map_resolution_delta_deg) + 1.0)
     delta_angle_nt = 180.0/(new_nt-1.0)
     print(f'    ==> Processed maps resolution: {new_np}x{new_nt}  dt_deg: {delta_angle_nt}  dp_deg: {delta_angle_np}')
-    command_map_prep += f' -np {new_np}'
-    command_map_prep += f' -nt {new_nt}'
+    command_map_prep += ['-np', str(new_np), '-nt', str(new_nt)]
   # Add smoothing factor
   smoothing_factor = output_map_processing_params.get('smoothing_factor')
   if smoothing_factor > 0.0:
-    command_map_prep += f' -smoothfac {smoothing_factor}'
+    command_map_prep += ['-smoothfac', str(smoothing_factor)]
   else:
-    command_map_prep += f' -nosmooth'
+    command_map_prep += ['-nosmooth']
   # Add map multiplier
   if output_map_processing_params.get('map_multiplier'):
-    command_map_prep += f' -mfac {output_map_processing_params.get("map_multiplier")}'
+    command_map_prep += ['-mfac', str(output_map_processing_params.get("map_multiplier"))]
   #print(f'    ==> Map processing flags:  {command_map_prep}')
  
   # Define necessary directory paths
@@ -849,13 +853,13 @@ def map_process(args, output_map_processing_params, hipft_params):
     print(f'    ==> Extracting/copying output maps:')
     for output_map in output_maps_list:
       if is3d:
-        command = f'hipft_extract_realization.py {output_map}'
+        command = [sys.executable, 'hipft_extract_realization.py', str(output_map)]
       else:
         temp_map=Path(output_map).stem+'.h5'
-        command = f'cp {output_map} {temp_map}'
+        command = ['cp', str(output_map), str(temp_map)]
       idx_current = int(re.search(r'idx(\d+)', output_map).group(1))
       print(f'\r        ==> Extracting/copying map {idx_current}/{tf}', end = " ") 
-      ierr = subprocess.run(["bash","-c",command],stdout=args.logout,stderr=args.logerr)
+      ierr = subprocess.run(command,stdout=args.logout,stderr=args.logerr)
       check_err(ierr.returncode, f'Failed: {command}')
       args.logout.flush()
       args.logerr.flush()
@@ -875,8 +879,8 @@ def map_process(args, output_map_processing_params, hipft_params):
         r_current = int(re.search(r'r(\d+)', map).group(1))
         idx_current = int(re.search(r'idx(\d+)', map).group(1))
         print(f'\r        ==> Processing map index: {idx_current}/{tf} realization: {r_current}/{rf}', end = " ") 
-        fullCommand = f'psi_map_prep.py {map} {command_map_prep}'
-        ierr = subprocess.run(["bash","-c",fullCommand],stdout=args.logout,stderr=args.logerr)
+        fullCommand = [sys.executable, 'psi_map_prep.py', map] + command_map_prep
+        ierr = subprocess.run(fullCommand,stdout=args.logout,stderr=args.logerr)
         check_err(ierr.returncode, f'Failed : {fullCommand}')
         args.logout.flush()
         args.logerr.flush()
@@ -884,8 +888,8 @@ def map_process(args, output_map_processing_params, hipft_params):
       for map in maps_in_temp_list:
         idx_current = int(re.search(r'idx(\d+)', map).group(1))
         print(f'\r        ==> Processing map index: {idx_current}/{tf}', end = " ") 
-        fullCommand = f'psi_map_prep.py {map} {command_map_prep}'
-        ierr = subprocess.run(["bash","-c",fullCommand],stdout=args.logout,stderr=args.logerr)
+        fullCommand = [sys.executable, 'psi_map_prep.py', map] + command_map_prep
+        ierr = subprocess.run(fullCommand,stdout=args.logout,stderr=args.logerr)
         check_err(ierr.returncode, f'Failed : {fullCommand}')
         args.logout.flush()
         args.logerr.flush()
@@ -897,11 +901,11 @@ def map_process(args, output_map_processing_params, hipft_params):
       for idx in idx_list:
         processed_maps_idx = os.path.join(processed_maps_temp_dir, f'processed_hipft_brmap_{idx}_r*.h5')
         processed_maps_idx_list = sorted(glob.glob(processed_maps_idx))
-        command = 'hipft_pack_realizations.py'
-        command += f' {",".join(processed_maps_idx_list)}'
+        command = [sys.executable, 'hipft_pack_realizations.py',
+                   ",".join(processed_maps_idx_list)]
         idx_current = int(re.search(r'idx(\d+)', idx).group(1))
         print(f'\r        ==> Packing map index {idx_current}/{tf}', end = " ")
-        ierr = subprocess.run(["bash","-c",command],stdout=args.logout,stderr=args.logerr)
+        ierr = subprocess.run(command,stdout=args.logout,stderr=args.logerr)
         check_err(ierr.returncode, f'Failed: {command}')
         args.logout.flush()
         args.logerr.flush()
@@ -919,17 +923,17 @@ def map_process(args, output_map_processing_params, hipft_params):
     shutil.rmtree(processed_maps_temp_dir)
 
     # Run history generation command
-    command = 'hipft_get_histories_from_files.py'
-    command += f' -folder "{processed_maps_dir}"'
-    command += f' -t0 {t0}'
-    command += f' -tf {tf}'
+    command = [sys.executable, 'hipft_get_histories_from_files.py'
+               '-folder', str(processed_maps_dir),
+               '-t0', str(t0),
+               '-tf', str(tf)]
     if not is3d:
-      command += f' -o hipft_history_sol_r000001.out'
+      command += ['-o', 'hipft_history_sol_r000001.out']
     if hipft_params.get('output_map_cadence_hr'):
-      command += f' -cadence { hipft_params.get("output_map_cadence_hr")}'
-    command += f' -bfile hipft_brmap_idx'
+      command += ['-cadence', str(hipft_params.get("output_map_cadence_hr"))]
+    command += ['-bfile', 'hipft_brmap_idx']
     print('    ==> Generating history files from processed maps...')
-    ierr = subprocess.run(["bash", "-c", command],stdout=args.logout,stderr=args.logerr)
+    ierr = subprocess.run(command,stdout=args.logout,stderr=args.logerr)
     check_err(ierr.returncode, f'Failed: {command}')
     args.logout.flush()
     args.logerr.flush()
@@ -953,13 +957,18 @@ def map_process(args, output_map_processing_params, hipft_params):
 
       # Generate WSA grid template
       print('    ==> Generating WSA grid template:')
-      new_grid_command = f'oft_make_2d_inner_mesh_template.py -np {new_np_wsa} -nt {new_nt_wsa} -o {processed_maps_wsa_temp_dir}/oft_template_2d_inner_mesh_np{new_np_wsa}_nt{new_nt_wsa}.h5'
-      ierr = subprocess.run(["bash","-c",new_grid_command],stdout=args.logout,stderr=args.logerr)
+      new_grid_command = [
+          sys.executable, 'oft_make_2d_inner_mesh_template.py',
+          '-np', str(new_np_wsa), '-nt', str(new_nt_wsa),
+          '-o', f'{processed_maps_wsa_temp_dir}/oft_template_2d_inner_mesh_np{new_np_wsa}_nt{new_nt_wsa}.h5']
+      ierr = subprocess.run(new_grid_command,stdout=args.logout,stderr=args.logerr)
       check_err(ierr.returncode, 'Failed : '+new_grid_command)
       args.logout.flush()
       args.logerr.flush()      
 
-      command_map_prep_wsa = f' -nosmooth -noflux -template {processed_maps_wsa_temp_dir}/oft_template_2d_inner_mesh_np{new_np_wsa}_nt{new_nt_wsa}.h5'
+      command_map_prep_wsa = [
+          '-nosmooth', '-noflux',
+          '-template', f'{processed_maps_wsa_temp_dir}/oft_template_2d_inner_mesh_np{new_np_wsa}_nt{new_nt_wsa}.h5']
 
       # Make list of processed maps:
       processed_maps_pattern = os.path.join(processed_maps_dir, 'hipft_brmap_idx*.h5')
@@ -969,13 +978,13 @@ def map_process(args, output_map_processing_params, hipft_params):
       print(f'    ==> Extracting/copying processed maps to temporary folder:')
       for processed_map in processed_maps_list:
         if is3d:
-          command = f'hipft_extract_realization.py {processed_map}'
+          command = [sys.executable, 'hipft_extract_realization.py', str(processed_map)]
         else:
           temp_map=Path(processed_map).stem+'.h5'
-          command = f'cp {processed_map} {temp_map}'
+          command = ['cp', str(processed_map), str(temp_map)]
         idx_current = int(re.search(r'idx(\d+)', processed_map).group(1))
         print(f'\r        ==> Extracting/copying map {idx_current}/{tf}', end = " ")
-        ierr = subprocess.run(["bash","-c",command],stdout=args.logout,stderr=args.logerr)
+        ierr = subprocess.run(command,stdout=args.logout,stderr=args.logerr)
         check_err(ierr.returncode, f'Failed: {command}')
         args.logout.flush()
         args.logerr.flush()        
@@ -992,8 +1001,8 @@ def map_process(args, output_map_processing_params, hipft_params):
           r_current = int(re.search(r'r(\d+)', map).group(1))
           idx_current = int(re.search(r'idx(\d+)', map).group(1))
           print(f'\r        ==> Processing map index: {idx_current}/{tf} realization: {r_current}/{rf}', end = " ") 
-          fullCommand = f'psi_map_prep.py {map} {command_map_prep_wsa}'
-          ierr = subprocess.run(["bash","-c",fullCommand],stdout=args.logout,stderr=args.logerr)
+          fullCommand = [sys.executable, 'psi_map_prep.py', str(map), str(command_map_prep_wsa)]
+          ierr = subprocess.run(fullCommand,stdout=args.logout,stderr=args.logerr)
           check_err(ierr.returncode, f'Failed : {fullCommand}')
           args.logout.flush()
           args.logerr.flush()
@@ -1001,8 +1010,8 @@ def map_process(args, output_map_processing_params, hipft_params):
         for map in maps_in_temp_list:
           idx_current = int(re.search(r'idx(\d+)', map).group(1))
           print(f'\r        ==> Processing map index: {idx_current}/{tf}', end = " ") 
-          fullCommand = f'psi_map_prep.py {map} {command_map_prep_wsa}'
-          ierr = subprocess.run(["bash","-c",fullCommand],stdout=args.logout,stderr=args.logerr)
+          fullCommand = [sys.executable, 'psi_map_prep.py', str(map), command_map_prep_wsa]
+          ierr = subprocess.run(fullCommand,stdout=args.logout,stderr=args.logerr)
           check_err(ierr.returncode, f'Failed : {fullCommand}')
           args.logout.flush()
           args.logerr.flush()
@@ -1014,11 +1023,11 @@ def map_process(args, output_map_processing_params, hipft_params):
         for idx in idx_list:
           processed_maps_idx = os.path.join(processed_maps_wsa_temp_dir, f'processed_hipft_brmap_{idx}_r*.h5')
           processed_maps_idx_list = sorted(glob.glob(processed_maps_idx))
-          command = 'hipft_pack_realizations.py'
-          command += f' {",".join(processed_maps_idx_list)}'
+          command = [sys.executable, 'hipft_pack_realizations.py',
+                     ",".join(processed_maps_idx_list)]
           idx_current = int(re.search(r'idx(\d+)', idx).group(1))
           print(f'\r        ==> Packing map index {idx_current}/{tf}',end = " ")
-          ierr = subprocess.run(["bash","-c",command],stdout=args.logout,stderr=args.logerr)
+          ierr = subprocess.run(command,stdout=args.logout,stderr=args.logerr)
           check_err(ierr.returncode, f'Failed: {command}')
           args.logout.flush()
           args.logerr.flush()
@@ -1062,8 +1071,11 @@ def sed(match, value, file):
     value = ".true."
   if (value is False):
     value = ".false."
-  
-  os.system(f'sed -i "s|.*{match}.*|  {match} = {value}|" "{file}"')
+
+  match_pattern = f".*{match}.*"
+  replace_pattern = f"  {match} = {value}"
+  sed_command = f"s|{match_pattern}|{replace_pattern}|"
+  subprocess.run(['sed', '-i', '', sed_command, str(file)])
 
 
 def generate_unique_filename(base_name, extension):
@@ -1113,16 +1125,18 @@ def get_hipft_add_dates_to_map_output_list(args,run_params, step):
   os.chdir(output_map_dir)
 
   # Construct the command to run the HipFT script
-  command =  'hipft_add_dates_to_map_output_list.py'
-  # Add the start date parameter
-  command += f' {run_params.get("date_start")}' 
-  # Input file
-  command += f' -maplist {os.path.join(args.orun, "hipft", "hipft_output_map_list.out")}'
-  # Output file name
-  command += f' -o {"hipft_output_map_list"}'
+  command = [
+      sys.executable, 'hipft_add_dates_to_map_output_list.py',
+      # Add the start date parameter
+      str(run_params.get("date_start")),
+      # Input file
+      '-maplist', os.path.join(args.orun, "hipft", "hipft_output_map_list.out"),
+      # Output file name
+      '-o', "hipft_output_map_list",
+  ]
 
   # Execute the command using subprocess and check for errors
-  ierr = subprocess.run(["bash","-c",command],stdout=args.logout,stderr=args.logerr)
+  ierr = subprocess.run(command,stdout=args.logout,stderr=args.logerr)
   check_err(ierr.returncode, f'Failed: {command}')
 
 

@@ -115,33 +115,36 @@ def run(args):
   empty_idx=99999
   for h5_file in h5_files:
     h5_input_file=str(h5_file)
-    output_flag=' -o processed_'+h5_input_file.split('/')[-1]
 
     print('=> Running map : ' +h5_input_file.split('/')[-1])
 
-    Command=args.psi_map_prep+' ' + h5_input_file + output_flag
+    Command = [
+        sys.executable, args.psi_map_prep, h5_input_file,
+        # output flag
+        '-o', 'processed_'+h5_input_file.split('/')[-1],
+    ]
     if (args.nt is not None):
-      Command=Command+' -nt '+str(args.nt)
+      Command += ['-nt', str(args.nt)]
     if (args.np is not None):
-      Command=Command+' -np '+str(args.np)
+      Command += ['-np', str(args.np)]
     if (args.template is not None):
-      Command=Command+' -template '+str(args.template)
+      Command += ['-template', str(args.template)]
     if (args.multfac is not None):
-      Command=Command+' -mfac '+str(args.multfac)
+      Command += ['-mfac', str(args.multfac)]
     if (args.smoothfac is not None):
-      Command=Command+' -smoothfac '+str(args.smoothfac)
+      Command += ['-smoothfac', str(args.smoothfac)]
     if args.hipftexe is not None:
-      Command=Command+' -hipftexe'
+      Command += ['-hipftexe']
     if (not args.flux):
-      Command=Command+' -noflux'
+      Command += ['-noflux']
     if (not args.smooth):
-      Command=Command+' -nosmooth'
+      Command += ['-nosmooth']
     if (not args.remap):
-      Command=Command+' -noremap'
+      Command += ['-noremap']
 
     print('=> Command: '+Command)
 
-    ierr = subprocess.run(["bash","-c",Command])
+    ierr = subprocess.run(Command)
     check_error_code(ierr.returncode,'Failed : '+Command, should_exit=False)
 
 def check_error_code(ierr,message,should_exit=True):
