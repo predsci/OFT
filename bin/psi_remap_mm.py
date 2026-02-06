@@ -22,7 +22,7 @@
 # limitations under the License.
 ########################################################################
 #
-#  Version 1.1.0
+#  Version 1.1.1
 #
 ########################################################################
 
@@ -149,7 +149,7 @@ pvec_edges_output[-1]   = pvec_centers_output[-1]
 # Remesh the map:
 output_data = downsample_grid.downsamp_reg_grid(input_data, tvec_edges_input,  pvec_edges_input,  \
                                                             pvec_edges_output, tvec_edges_output, \
-                                                            da=da_input_map)
+                                                            da=da_input_map, no_data_val=-9999)
 # Write out result:
 if (tp):
   ps.wrhdf_2d(args.output_file,tvec_centers_output,pvec_centers_output,output_data)
