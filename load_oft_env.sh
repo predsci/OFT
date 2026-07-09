@@ -75,7 +75,7 @@ fi
 
 echo "==> Appending OFT and its submodules located at [${oft_dir}] to PATH..."
 
-export PATH=${oft_dir}:${oft_dir}/bin:${oft_dir}/magmap/bin:${oft_dir}/conflow/bin:${oft_dir}/hipft/bin:$PATH
+export PATH=${oft_dir}/bin:${oft_dir}/magmap/bin:${oft_dir}/conflow/bin:${oft_dir}/hipft/bin:${oft_dir}:$PATH
 
 ${echo} "${cG}==> Done!${cX}"
 
