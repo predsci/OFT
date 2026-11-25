@@ -92,13 +92,12 @@ else:
   tp = True
 
 # Get area metric:
-# Modify boundary points of theta for correct near-pole calcualtions.
+# Modify boundary points of theta for correct near-pole calculations.
 tvec_tmp = tvec_centers_input.copy()
 tvec_tmp[0]  = (tvec_centers_input[0]  + tvec_centers_input[1] )*0.25
 tvec_tmp[-1] = tvec_centers_input[-1] - np.abs((tvec_centers_input[-1] - tvec_centers_input[-2])*0.25)
-da_input_map = input_data.copy()
-for i in range(len(pvec_centers_input)):
-  da_input_map[i,:] = np.sin(tvec_tmp[:])
+da_input_map = np.zeros_like(input_data)
+da_input_map[:] = np.sin(tvec_tmp)
 
 # Make scales for cell edges:
 # As per Jamie's instructions, set boundary edges to original center positions.
